@@ -1,0 +1,1987 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+<head>
+    <title>Controller panel</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="SoyM"/>
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#1f8dd6">
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/amazeui/2.7.2/css/amazeui.min.css"/>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"
+            type="text/javascript"></script>
+
+    <style>
+        html,
+        body {
+            background: #e9ecf3;
+            overflow: inherit;
+        }
+
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        input {
+            border: none;
+        }
+
+        a {
+            color: #337ab7;
+        }
+
+        a:hover {
+            cursor: pointer;
+            color: #23527c;
+        }
+
+        .am-breadcrumb {
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        .am-topbar-inverse {
+            background: #fff;
+            border-color: #e9ecf3;
+        }
+
+        .am-topbar-brand {
+            color: #337ab7;
+            margin-right: 20px;
+        }
+
+        .am-topbar-brand {
+            height: 75px;
+            line-height: 75px;
+        }
+
+        .am-topbar {
+            min-height: 75px;
+            line-height: 75px;
+        }
+
+        .am-topbar-inverse .am-topbar-nav > li > a {
+            height: 75px;
+            line-height: 75px;
+            padding: 0 12px;
+        }
+
+        .am-topbar-inverse .am-topbar-nav > li > a:focus,
+        .am-topbar-inverse .am-topbar-nav > li > a:hover {
+            background: none;
+            color: initial;
+        }
+
+        .am-topbar-inverse .am-topbar-nav > li > a:after {
+            border-bottom: none;
+        }
+
+        .am-topbar-inverse .am-topbar-nav > li > a:focus:after,
+        .am-topbar-inverse .am-topbar-nav > li > a:hover:after {
+            border-bottom: none;
+        }
+
+        .am-topbar-inverse .am-topbar-nav > li > a {
+        }
+
+        .am-nav-pills > li + li {
+            margin-left: 0;
+        }
+
+        .am-topbar-inverse .am-topbar-nav > li.am-active > a,
+        .am-topbar-inverse .am-topbar-nav > li.am-active > a:focus,
+        .am-topbar-inverse .am-topbar-nav > li.am-active > a:hover {
+            background-color: #f9fafc;
+        }
+
+        ul.am-dropdown-content > li > a:focus,
+        ul.am-dropdown-content > li > a:hover {
+            background: none;
+        }
+
+        ul.am-dropdown-content > li > a {
+            color: #96a5aa;
+            padding: 12px 8px 12px 18px;
+            white-space: initial;
+            font-size: 12px;
+            display: table-cell;
+        }
+
+        .admin-sidebar-list li a {
+            color: #485a6a;
+            font-size: 14px;
+        }
+
+        .tpl-color-success {
+            color: #36c6d3;
+        }
+
+        .tpl-color-danger {
+            color: #ed6b75;
+        }
+
+        .tpl-color-warning {
+            color: #F1C40F;
+        }
+
+        .tpl-color-primary {
+            color: #8E44AD;
+        }
+
+        .tpl-badge-success {
+            background-color: #36c6d3 !important;
+        }
+
+        .tpl-badge-danger {
+            background-color: #ed6b75 !important;
+        }
+
+        .tpl-badge-warning {
+            background-color: #F1C40F !important;
+        }
+
+        .tpl-badge-primary {
+            background-color: #8E44AD !important;
+        }
+
+        .tpl-header-list li {
+            color: #999;
+            border-bottom: 1px solid #F1F4F7;
+        }
+
+        .tpl-header-list li:last-child {
+            border-bottom: none;
+        }
+
+        .tpl-header-list li:hover {
+            background: #f9fafc;
+        }
+
+        .tpl-header-list-link {
+            color: #999 !important;
+        }
+
+        .tpl-header-list-user-nick {
+            color: #7FB0DA;
+        }
+
+        .tpl-header-list-user-nick {
+            color: #7FB0DA;
+        }
+
+        .tpl-header-list-user-ico img {
+            margin-left: 5px;
+            margin-top: -4px;
+            height: 39px;
+            display: inline-block;
+            border-radius: 50%;
+        }
+
+        .tpl-header-list-ico-out-size {
+            font-size: 16px;
+        }
+
+        ul.tpl-dropdown-content {
+            width: 260px;
+            padding: 8px;
+        }
+
+        ul.tpl-dropdown-content li > a.tpl-dropdown-content-message {
+            padding: 16px 12px;
+            display: block;
+            border-bottom: 1px solid #F1F4F7;
+        }
+
+        ul.tpl-dropdown-content li > a.tpl-dropdown-content-message:last-child {
+            border-bottom: none;
+        }
+
+        .tpl-dropdown-content-photo {
+            float: left;
+            margin: 0 6px 6px 0;
+        }
+
+        .tpl-dropdown-content-photo img {
+            height: 40px;
+            width: 40px;
+            -webkit-border-radius: 50% !important;
+            -moz-border-radius: 50% !important;
+            -ms-border-radius: 50% !important;
+            -o-border-radius: 50% !important;
+            border-radius: 50% !important;
+        }
+
+        .tpl-dropdown-content-subject {
+            display: block;
+            margin-left: 46px;
+        }
+
+        .tpl-dropdown-content-external {
+            display: block;
+            overflow: hidden;
+            padding: 10px;
+            letter-spacing: .5px;
+            border-bottom: 1px solid #F1F4F7;
+        }
+
+        .tpl-dropdown-content-external a {
+            padding: 0 !important;
+            display: block !important;
+            float: right;
+            clear: none !important;
+        }
+
+        .tpl-dropdown-content-external h3 {
+            margin: 0;
+            padding: 0;
+            font-size: 13px;
+            color: #96a5aa;
+            font-weight: normal;
+            /*display: inline-block;*/
+            float: left;
+        }
+
+        .tpl-dropdown-content-external h3 span {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .tpl-dropdown-content-from {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .tpl-dropdown-content-time {
+            font-size: 12px;
+            font-weight: 400;
+            opacity: .5;
+            filter: alpha(opacity=50);
+            float: right;
+        }
+
+        .tpl-dropdown-content-font {
+            display: block !important;
+            font-size: 12px;
+            line-height: 22px;
+            margin-left: 46px;
+        }
+
+        .tpl-dropdown-ico-btn-size {
+            width: 18px;
+            height: 18px;
+            line-height: 18px;
+            font-size: 8px;
+            color: #fff;
+        }
+
+        .tpl-dropdown-list-fl {
+            width: 70%;
+            position: relative;
+        }
+
+        .tpl-dropdown-list-fr {
+            width: 30%;
+            display: table-cell;
+            font-size: 12px;
+            text-align: right;
+            line-height: initial;
+            vertical-align: middle;
+            padding-right: 20px;
+        }
+
+        .tpl-dropdown-list-bdbc {
+            border-bottom: 1px solid #F1F4F7;
+        }
+
+        .tpl-dropdown-list-bdbc:last-child {
+            border-bottom: none;
+        }
+
+        .tpl-logo {
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: -5px;
+            padding-left: 18px;
+            width: 160px;
+        }
+
+        .tpl-logo img {
+            display: block;
+            width: 100%;
+        }
+
+        .tpl-dropdown-content .task {
+            margin-bottom: 5px;
+        }
+
+        .tpl-dropdown-content .desc {
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+        .tpl-dropdown-content .percent {
+            float: right;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .tpl-dropdown-content-progress {
+            display: block !important;
+        }
+
+        .tpl-dropdown-content .progress {
+            display: block;
+            background-color: #f5f5f5;
+            margin: 8px 0 2px;
+        }
+
+        .tpl-progress {
+            height: 16px;
+            margin-bottom: 0;
+        }
+
+        .tpl-dropdown-content .progress-bar {
+            float: left;
+            width: 0%;
+            height: 100%;
+            font-size: 12px;
+            line-height: 20px;
+            color: #fff;
+            text-align: center;
+            background-color: #337ab7;
+            -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+            box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+            -webkit-transition: width 0.6s ease;
+            -o-transition: width 0.6s ease;
+            transition: width 0.6s ease;
+        }
+
+        .tpl-page-container {
+            margin: 0;
+            padding: 20px 20px 0;
+        }
+
+        .tpl-page-header-fixed {
+            margin-top: 5px;
+        }
+
+        .tpl-navbar-collapse {
+            width: 235px;
+            float: left;
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            padding-bottom: 20px;
+        }
+
+        .admin-offcanvas-bar {
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .tpl-page-container-nav-heading {
+            height: 50px;
+            padding: 25px 15px 10px;
+            color: #5C9ACF;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .admin-sidebar-sub {
+            background: none;
+            padding-left: 0;
+        }
+
+        .admin-sidebar-list .admin-sidebar-sub li {
+            padding-left: 0;
+        }
+
+        .admin-sidebar-sub li:first-child {
+            border-top: none;
+        }
+
+        .admin-sidebar-list li {
+            position: relative;
+            border: none;
+            padding-left: 24px;
+            border-left: 3px solid #fff;
+        }
+
+        .admin-sidebar-list .admin-parent li {
+        }
+
+        .tpl-page-container-ico {
+            font-size: 20px;
+            position: absolute;
+            top: 6px;
+            left: 18px;
+            padding-right: 10px;
+            color: #a7bdcd;
+        }
+
+        .tpl-sidebar-list {
+        }
+
+        .tpl-sidebar-list li.tpl-sidebar-list-hover:hover a,
+        .tpl-sidebar-list li.tpl-sidebar-list-hover.active a {
+            color: #5b9bd1;
+        }
+
+        .tpl-sidebar-list li.tpl-sidebar-list-hover:hover .tpl-page-container-ico,
+        .tpl-sidebar-list li.tpl-sidebar-list-hover.active .tpl-page-container-ico {
+            color: #5b9bd1;
+        }
+
+        .tpl-sidebar-list li.tpl-sidebar-list-hover:hover,
+        .tpl-sidebar-list li.tpl-sidebar-list-hover.active {
+            background: #f2f6f9;
+            border-left: 3px solid #5C9ACF !important;
+        }
+
+        .tpl-sidebar-list-hover-show .tpl-sidebar-list-hover-show-font:hover,
+        .tpl-sidebar-list-hover-show .tpl-sidebar-list-hover-show-font:hover .tpl-page-container-ico {
+            color: #5b9bd1;
+        }
+
+        .tpl-sidebar-list-hover-show.active .tpl-sidebar-list-hover-show-font,
+        .tpl-sidebar-list-hover-show.active .tpl-sidebar-list-hover-show-font .tpl-page-container-ico {
+            color: #5b9bd1;
+        }
+
+        .tpl-sidebar-list-hover-show:hover,
+        .tpl-sidebar-list-hover-show.active {
+            background: #f2f6f9;
+            border-left: 3px solid #f2f6f9;
+        }
+
+        .admin-sidebar-sub li:hover,
+        .admin-sidebar-sub li.active {
+            background: #f2f6f9;
+            border-left: 3px solid #f2f6f9;
+        }
+
+        .admin-sidebar-sub li:hover a,
+        .admin-sidebar-sub li.active a {
+            color: #5b9bd1;
+        }
+
+        .tpl-topbar-list-button {
+            float: left;
+            color: #C0CDDC;
+            font-size: 18px;
+        }
+
+        .tpl-topbar-list-button span {
+            cursor: pointer;
+        }
+
+        .tpl-content-wrapper {
+            padding-left: 255px;
+            padding-top: 10px;
+        }
+
+        .tpl-content-wrapper-hover {
+            padding-left: 0px;
+        }
+
+        .tpl-content-page-title {
+            color: #697882;
+            font-size: 22px;
+            font-weight: 400;
+        }
+
+        .tpl-left-nav {
+            width: 235px;
+            float: left;
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            padding-bottom: 20px;
+        }
+
+        .tpl-left-nav-title {
+            height: 50px;
+            padding: 25px 15px 10px;
+            color: #5C9ACF;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .tpl-left-nav-list {
+            width: 235px;
+        }
+
+        .tpl-left-nav-item {
+        }
+
+        .tpl-left-nav-item .nav-link {
+            display: block;
+            position: relative;
+            margin: 1px 0 0;
+            border: 0;
+            padding: 12px 15px;
+            padding-top: 6px;
+            text-decoration: none;
+            color: #485a6a;
+            font-size: 14px;
+        }
+
+        .tpl-left-nav-item .nav-link span,
+        .tpl-left-nav-sub-menu a span {
+            font-size: 14px;
+            font-weight: 400;
+            color: #485a6a;
+        }
+
+        .tpl-left-nav-item .nav-link i,
+        .tpl-left-nav-sub-menu a i {
+            font-size: 20px;
+            position: relative;
+            text-shadow: none;
+            font-weight: 300;
+            top: 2px;
+            margin-left: 1px;
+            margin-right: 6px;
+            color: #a7bdcd;
+        }
+
+        .tpl-left-nav-item .nav-link:hover {
+            background: #f2f6f9;
+            color: #5b9bd1;
+            border-left: 3px solid #5C9ACF !important;
+            margin-left: -3px;
+            padding-left: 15px;
+        }
+
+        .tpl-left-nav-item .nav-link:hover i,
+        .tpl-left-nav-sub-menu a:hover i {
+            color: #5b9bd1;
+        }
+
+        .tpl-left-nav-item .nav-link:hover span,
+        .tpl-left-nav-sub-menu a:hover span {
+            color: #5b9bd1;
+        }
+
+        .tpl-left-nav-item .nav-link.active {
+            border-left: 3px solid #5C9ACF !important;
+            background: #f2f6f9;
+            margin-left: -3px;
+            padding-left: 15px;
+        }
+
+        .tpl-left-nav-item .nav-link.active span,
+        .tpl-left-nav-item .nav-link.active i {
+            color: #5b9bd1;
+        }
+
+        .tpl-left-nav-sub-menu {
+            list-style: none;
+            display: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tpl-header-nav-hover-ico {
+            color: #C0CDDC !important;
+            font-size: 19px !important;
+        }
+
+        .tpl-left-nav-more-ico {
+            -webkit-transition: all 300ms;
+            transition: all 300ms;
+            font-size: 16px !important;
+            top: 4px !important;
+        }
+
+        .tpl-left-nav-more-ico-rotate {
+            -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+            -webkit-transition: all 300ms;
+            transition: all 300ms;
+        }
+
+        .tpl-left-nav-sub-menu a {
+            display: block;
+            margin: 0;
+            padding: 4px 14px 9px 30px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 400;
+            background: 0 0;
+        }
+
+        .tpl-left-nav-sub-menu a:hover,
+        .tpl-left-nav-sub-menu a.active {
+            color: #5b9bd1;
+            background: #f2f6f9 !important;
+        }
+
+        .tpl-left-nav-sub-menu a.active i,
+        .tpl-left-nav-sub-menu a.active span {
+            color: #5b9bd1;
+            background: #f2f6f9 !important;
+        }
+
+        .tpl-left-nav-content-ico {
+            font-size: 14px !important;
+            position: relative;
+            top: 8px !important;
+            color: #ffbe40 !important;
+        }
+
+        .tpl-left-nav-content {
+            background-color: #36c6d3;
+            border-radius: 1000px;
+            color: #fff !important;
+            padding: 0px 8px !important;
+            float: right;
+            position: relative;
+            font-style: normal;
+            font-family: "微软雅黑";
+            top: 10px !important;
+            font-size: 12px !important;
+        }
+
+        .tpl-content-scope {
+        }
+
+        .note {
+            margin: 0 0 20px;
+            padding: 15px 30px 15px 15px;
+            border-left: 5px solid #eee;
+            border-radius: 0 4px 4px 0;
+            font-size: 13px;
+        }
+
+        .note h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .note p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 26px;
+        }
+
+        .note-info {
+            background-color: #f5f8fd;
+            border-color: #8bb4e7;
+            color: #010407;
+        }
+
+        .label-danger {
+            background-color: #ed6b75;
+        }
+
+        .label {
+            display: inline;
+            padding: 0.2em 0.6em 0.3em;
+            font-size: 75%;
+            font-weight: bold;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: .25em;
+        }
+
+        .dashboard-stat .visual {
+            width: 80px;
+            height: 80px;
+            display: block;
+            float: left;
+            padding-top: 10px;
+            padding-left: 15px;
+            margin-bottom: 15px;
+            font-size: 35px;
+            line-height: 35px;
+        }
+
+        .dashboard-stat.blue .visual > i {
+            color: #FFF;
+            opacity: .1;
+            filter: alpha(opacity=10);
+        }
+
+        .dashboard-stat .visual > i {
+            margin-left: -35px;
+            font-size: 110px;
+            line-height: 110px;
+        }
+
+        .dashboard-stat .details {
+            position: absolute;
+            right: 15px;
+            padding-right: 15px;
+        }
+
+        .dashboard-stat.blue .details .number {
+            color: #FFF;
+        }
+
+        .dashboard-stat .details .number {
+            padding-top: 25px;
+            text-align: right;
+            font-size: 34px;
+            line-height: 36px;
+            letter-spacing: -1px;
+            margin-bottom: 0;
+            font-weight: 300;
+        }
+
+        .dashboard-stat.blue .details .desc {
+            color: #FFF;
+            opacity: 1;
+            filter: alpha(opacity=100);
+        }
+
+        .dashboard-stat .details .desc {
+            text-align: right;
+            font-size: 16px;
+            letter-spacing: 0;
+            font-weight: 300;
+        }
+
+        .dashboard-stat.blue .more {
+            color: #FFF;
+            background-color: #258fd7;
+        }
+
+        .dashboard-stat {
+            display: block;
+            margin-bottom: 25px;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .dashboard-stat .more {
+            clear: both;
+            display: block;
+            padding: 6px 10px;
+            position: relative;
+            text-transform: uppercase;
+            font-weight: 300;
+            font-size: 11px;
+            opacity: .7;
+            filter: alpha(opacity=70);
+        }
+
+        .row {
+            margin-left: -18px;
+            margin-right: -18px;
+            overflow: hidden;
+        }
+
+        .row-mb {
+            margin-bottom: 25px;
+        }
+
+        .dashboard-stat.blue {
+            background-color: #3598dc;
+        }
+
+        .dashboard-stat.red {
+            background-color: #e7505a;
+        }
+
+        .dashboard-stat.green {
+            background-color: #32c5d2;
+        }
+
+        .dashboard-stat.purple {
+            background-color: #8E44AD;
+        }
+
+        .dashboard-stat .more > i {
+            display: inline-block;
+            margin-top: 1px;
+            float: right;
+        }
+
+        .m-icon-swapright {
+            background-position: -27px -10px;
+        }
+
+        .dashboard-stat.red .more {
+            color: #fff;
+            background-color: #e53e49;
+        }
+
+        .dashboard-stat.red .visual > i {
+            color: #fff;
+            opacity: .1;
+            filter: alpha(opacity=10);
+        }
+
+        .dashboard-stat.red .details .number {
+            color: #fff;
+        }
+
+        .dashboard-stat.red .details .desc {
+            color: #fff;
+            opacity: 1;
+            filter: alpha(opacity=100);
+        }
+
+        [class^=m-icon-] {
+            width: 14px;
+            height: 14px;
+            margin-top: 3px;
+            line-height: 14px;
+            vertical-align: top;
+        }
+
+        .dashboard-stat.green .details .number {
+            color: #FFF;
+        }
+
+        .dashboard-stat.green .details .desc {
+            color: #FFF;
+            opacity: 1;
+            filter: alpha(opacity=100);
+        }
+
+        .dashboard-stat.green .more {
+            color: #FFF;
+            background-color: #2bb8c4;
+        }
+
+        .dashboard-stat.green .visual > i {
+            color: #FFF;
+            opacity: .1;
+            filter: alpha(opacity=10);
+        }
+
+        .dashboard-stat.purple .visual > i {
+            color: #fff;
+            opacity: .1;
+            filter: alpha(opacity=10);
+        }
+
+        .dashboard-stat.purple .details .number {
+            color: #fff;
+        }
+
+        .dashboard-stat.purple .details .desc {
+            color: #fff;
+            opacity: 1;
+            filter: alpha(opacity=100);
+        }
+
+        .dashboard-stat.purple .more {
+            color: #fff;
+            background-color: #823e9e;
+        }
+
+        .tpl-portlet {
+            padding: 12px 20px 15px;
+            background-color: #fff;
+            border-radius: 4px;
+        }
+
+        .tpl-portlet-title {
+            padding: 0;
+            min-height: 48px;
+            border-bottom: 1px solid #eef1f5;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .tpl-caption {
+            color: #666;
+            padding: 10px 0;
+            float: left;
+            display: inline-block;
+            font-size: 16px;
+            line-height: 18px;
+        }
+
+        .font-green {
+            color: #32c5d2 !important;
+        }
+
+        .font-red {
+            color: #e7505a !important;
+        }
+
+        .bold {
+            font-weight: 700 !important;
+        }
+
+        .actions {
+            float: right;
+            display: inline-block;
+            padding: 6px 0 14px;
+        }
+
+        .actions-btn {
+            width: 100%;
+        }
+
+        .actions-btn li {
+            display: inline-block;
+            padding: 4px 14px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #e7505a;
+            border: 1px solid #e7505a;
+            border-radius: 60px;
+            cursor: pointer;
+        }
+
+        .actions-btn li:hover {
+            transition: all .3s;
+        }
+
+        .actions-btn li.red {
+            border-color: #e7505a;
+            color: #e7505a;
+            background: 0 0;
+        }
+
+        .actions-btn li.red:hover,
+        .actions-btn li.red-on {
+            border-color: #e7505a;
+            color: #fff;
+            background-color: #e7505a;
+        }
+
+        .actions-btn li.green {
+            border-color: #32c5d2;
+            color: #32c5d2;
+            background: 0 0;
+        }
+
+        .actions-btn li.green:hover,
+        .actions-btn li.green-on {
+            border-color: #32c5d2;
+            color: #FFF;
+            background-color: #32c5d2;
+        }
+
+        .actions-btn li.purple {
+            border-color: #8E44AD;
+            color: #8E44AD;
+            background: 0 0;
+        }
+
+        .actions-btn li.purple:hover,
+        .actions-btn li.purple-on {
+            border-color: #8E44AD;
+            color: #FFF;
+            background-color: #8E44AD;
+        }
+
+        .actions-btn li.dark {
+            border-color: #2f353b;
+            color: #2f353b;
+            background: 0 0;
+        }
+
+        .actions-btn li.dark:hover,
+        .actions-btn li.dark-on {
+            border-color: #2f353b;
+            color: #FFF;
+            background-color: #2f353b;
+        }
+
+        .actions-btn li.blue {
+            border-color: #3598dc;
+            color: #3598dc;
+            background: 0 0;
+        }
+
+        .actions-btn li.blue:hover,
+        .actions-btn li.blue-on {
+            border-color: #3598dc;
+            color: #FFF;
+            background-color: #3598dc;
+        }
+
+        .tpl-echarts {
+            width: 100%;
+            min-height: 400px;
+        }
+
+        .tpl-scrollable {
+            width: 100%;
+            min-height: 400px;
+        }
+
+        .number-stats {
+        }
+
+        .number-stats {
+            padding: 10px 0 16px;
+            overflow: hidden;
+        }
+
+        .number-stats .stat-number .title {
+            font-size: 13px;
+            margin-bottom: 3px;
+            color: #B8C3C7;
+        }
+
+        .number-stats .stat-number .number {
+            font-size: 27px;
+            line-height: 27px;
+        }
+
+        .font-green {
+            color: #32c5d2 !important;
+        }
+
+        .caption-helper {
+            padding: 0;
+            margin: 0;
+            line-height: 13px;
+            color: #9eacb4;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .tpl-portlet-input {
+            float: right;
+            display: inline-block;
+            padding: 4px 0;
+        }
+
+        .wrapper {
+            z-index: 1;
+            height: 400px;
+            width: 100%;
+            background: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .tpl-task-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tpl-task-list li {
+            position: relative;
+            padding: 10px !important;
+            border-bottom: 1px solid #F4F6F9;
+            height: auto !important;
+            font-size: 14px !important;
+            line-height: 22px !important;
+        }
+
+        .task-checkbox {
+            float: left;
+            width: 30px;
+        }
+
+        .task-title {
+            color: #838FA1;
+            margin-right: 10px;
+        }
+
+        .task-title-sp {
+            margin-right: 5px;
+        }
+
+        .label-sm {
+            font-size: 13px;
+            padding: 2px 5px;
+        }
+
+        .label-success {
+            background-color: #36c6d3;
+        }
+
+        .label {
+            text-shadow: none !important;
+            font-size: 14px;
+            font-weight: 300;
+            padding: 3px 6px;
+            color: #fff;
+        }
+
+        .task-config {
+            display: none;
+            position: absolute;
+            top: 1px;
+            right: 10px;
+        }
+
+        .tpl-task-list li:hover .task-config {
+            display: block;
+            margin-bottom: 0 !important;
+        }
+
+        .tpl-task-list-hover {
+            padding: 2px 12px;
+            color: #666;
+            border-radius: 3px;
+            background-color: #e1e5ec;
+            border-color: #e1e5ec;
+        }
+
+        .tpl-task-list-hover:hover {
+            color: #999;
+        }
+
+        .tpl-task-list-dropdown {
+            position: absolute;
+            top: 10px;
+            left: -85px;
+        }
+
+        .tpl-task-list-dropdown-ul {
+            width: 80px !important;
+            min-width: 80px !important;
+        }
+
+        .tpl-task-list-dropdown-ul li {
+            /*padding: 0!important;*/
+            text-align: center;
+        }
+
+        .tpl-task-list > li:hover {
+            background: #F4F6F9;
+        }
+
+        .tpl-task-list-dropdown-ul li a {
+            padding: 0 !important;
+            display: inherit !important;
+        }
+
+        .label-danger {
+            background-color: #ed6b75;
+        }
+
+        .label-warning {
+            background-color: #F1C40F;
+        }
+
+        .label-default {
+            background-color: #bac3d0;
+        }
+
+        .tpl-index-tabs {
+            position: relative;
+        }
+
+        .tpl-index-tabs .am-nav-tabs {
+            border: none;
+            position: absolute;
+            top: -55px;
+            right: 0;
+        }
+
+        .tpl-index-tabs .am-nav-tabs li a {
+            color: #333;
+            font-size: 13px;
+            border: none;
+            padding-bottom: 16px;
+        }
+
+        .tpl-index-tabs .am-nav-tabs li a:hover {
+            background: transparent;
+            border: none;
+            border-bottom: 4px solid #36c6d3;
+        }
+
+        .tpl-index-tabs .am-nav-tabs > li.am-active > a,
+        .tpl-index-tabs .am-nav-tabs > li.am-active > a:focus,
+        .tpl-index-tabs .am-nav-tabs > li.am-active > a:hover {
+            border: none;
+        }
+
+        .tpl-index-tabs .am-nav-tabs li.am-active {
+            border: none;
+            border-bottom: 4px solid #36c6d3;
+        }
+
+        .tpl-index-tabs .am-tabs-bd .am-tab-panel {
+            padding: 0;
+        }
+
+        .tpl-index-tabs .am-tabs-bd {
+            border: none;
+        }
+
+        .tpl-task-remind {
+        }
+
+        .tpl-task-remind li {
+            color: #82949a;
+            margin-bottom: 7px;
+        }
+
+        .tpl-task-remind li .cosA {
+            margin-right: 80px;
+        }
+
+        .tpl-task-remind li .cosB {
+            float: right;
+            width: 75px;
+            margin-left: -75px;
+            text-align: right;
+            font-style: italic;
+            color: #c1cbd0;
+        }
+
+        .tpl-label-info {
+            font-size: 13px;
+            padding: 2px 5px;
+            background-color: #659be0;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: .25em;
+        }
+
+        .tpl-task-remind li .cosA .cosIco {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            color: #fff;
+            text-align: center;
+            border-radius: 3px;
+            background-color: #36c6d3;
+        }
+
+    </style>
+    <script>
+        client = null;
+        connected = false;
+        connect();
+
+        function connect() {
+            client = new Paho.MQTT.Client("m13.cloudmqtt.com", Number(35873), "soym_web");
+            client.onConnectionLost = onConnectionLost;
+            client.onMessageArrived = onMessageArrived;
+            client.connect({
+                invocationContext: {host: "m13.cloudmqtt.com", port: Number(35873), path: "", clientId: "soym_web"},
+                userName: "lytlmnde",
+                password: "3mtD81MmaVqW",
+                useSSL: true,
+                mqttVersion: 4,
+                cleanSession: true,
+                onSuccess: onConnect
+            });
+
+        }
+
+        function onConnect() {
+            // Once a connection has been made, make a subscription and send a message.
+            console.log("onConnect");
+            client.subscribe("test");
+            client.subscribe("set_mode");
+            client.subscribe("bot_mode");
+            message = new Paho.MQTT.Message("Hello,I am soym_web");
+            message.destinationName = "test";
+            client.send(message);
+        }
+
+        // called when the client loses its connection
+        function onConnectionLost(responseObject) {
+            console.log("onConnectionLost:");
+        }
+
+
+        // called when a message arrives
+        function onMessageArrived(message) {
+            console.log(message.destinationName + message.payloadString);
+            if (message.destinationName === "bot_mode") {
+                var data = JSON.parse(message.payloadString);
+                var bot_mode = data.bot_mode;
+                var handle_array = new Array("up", "right", "left", "down", "auto", "wave");
+                for (var m = 0; m < handle_array.length; m++) {
+                    $("#motion_" + handle_array[m]).css("color", "#C0C0C0");
+                }
+                $("#motion_" + bot_mode).css("color", "Tomato");
+                $("#bot_motion_update_date").text(data.update_date);
+
+            } else if (message.destinationName === "esp/test") {
+                var esp_param = JSON.parse(message.payloadString);
+                $("#temperature").text(esp_param.Temperature);
+                $("#humidity").text(esp_param.Humidity);
+                $("#co").text(esp_param.sensorValue);
+                $("#ap_ssid").text(esp_param.SSID);
+            }
+        }
+
+
+        /**
+         * MQTT Publish
+         */
+        function up_mode() {
+            message = new Paho.MQTT.Message('{"set_mode":"up"}');
+            message.destinationName = "set_mode";
+            client.send(message);
+        }
+
+        function down_mode() {
+            message = new Paho.MQTT.Message('{"set_mode":"down"}');
+            message.destinationName = "set_mode";
+            client.send(message);
+        }
+
+        function left_mode() {
+            message = new Paho.MQTT.Message('{"set_mode":"left"}');
+            message.destinationName = "set_mode";
+            client.send(message);
+        }
+
+        function right_mode() {
+            message = new Paho.MQTT.Message('{"set_mode":"right"}');
+            message.destinationName = "set_mode";
+            client.send(message);
+        }
+
+        function auto_mode() {
+            message = new Paho.MQTT.Message('{"set_mode":"auto"}');
+            message.destinationName = "set_mode";
+            client.send(message);
+        }
+
+        function wave_mode() {
+            message = new Paho.MQTT.Message('{"set_mode":"wave"}');
+            message.destinationName = "set_mode";
+            client.send(message);
+        }
+    </script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js"
+            integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l"
+            crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js"
+            integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/echarts/4.0.4/echarts.min.js"></script>
+
+    <script>
+        var pageData = {
+            'index': function indexData() {
+                var echartsA = echarts.init(document.getElementById('tpl-echarts-A'));
+
+                option = {
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: ['Temp', 'Head index', 'Humi']
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [{
+                        type: 'category',
+                        boundaryGap: true,
+                        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                    }],
+
+                    yAxis: [{
+                        type: 'value'
+                    }],
+                    series: [{
+                        name: 'Temp',
+                        type: 'line',
+                        stack: '总量',
+                        areaStyle: {normal: {}},
+                        data: [120, 132, 101, 134, 90, 230, 210],
+                        itemStyle: {
+                            normal: {
+                                color: '#59aea2'
+                            },
+                            emphasis: {}
+                        }
+                    },
+                        {
+                            name: 'Head index',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: {normal: {}},
+                            data: [220, 182, 191, 234, 290, 330, 310],
+                            itemStyle: {
+                                normal: {
+                                    color: '#e7505a'
+                                }
+                            }
+                        },
+                        {
+                            name: 'Humi',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: {normal: {}},
+                            data: [150, 232, 201, 154, 190, 330, 410],
+                            itemStyle: {
+                                normal: {
+                                    color: '#32c5d2'
+                                }
+                            }
+                        }
+                    ]
+                };
+                echartsA.setOption(option);
+            }
+        }
+
+    </script>
+
+
+</head>
+
+
+<body data-type="index">
+<header class="am-topbar am-topbar-inverse admin-header">
+    <div class="am-topbar-brand">
+        <a href="/" class="tpl-logo">
+            <img src="/static/img/logo.png" alt="">
+        </a>
+    </div>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+            data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
+            class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+
+            <li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+                <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:">
+                    <span class="am-icon-bell-o"></span> Message <span
+                        class="am-badge tpl-badge-success am-round">3</span>
+                </a>
+                <ul class="am-dropdown-content tpl-dropdown-content">
+                    <li class="tpl-dropdown-content-external">
+                        <h3>There are<span class="tpl-color-success">3</span> messages</h3><a href="#">Get all</a>
+                    </li>
+                    <li class="tpl-dropdown-list-bdbc"><a href="#" class="tpl-dropdown-list-fl"><span
+                            class="am-icon-btn am-icon-plus tpl-dropdown-ico-btn-size tpl-badge-success"></span>
+                        example1</a>
+                        <span class="tpl-dropdown-list-fr">3 hours age</span>
+                    </li>
+                    <li class="tpl-dropdown-list-bdbc"><a href="#" class="tpl-dropdown-list-fl"><span
+                            class="am-icon-btn am-icon-check tpl-dropdown-ico-btn-size tpl-badge-danger"></span>
+                        example2</a>
+                        <span class="tpl-dropdown-list-fr">15 minutes ago</span>
+                    </li>
+                    <li class="tpl-dropdown-list-bdbc"><a href="#" class="tpl-dropdown-list-fl"><span
+                            class="am-icon-btn am-icon-bell-o tpl-dropdown-ico-btn-size tpl-badge-warning"></span>
+                        example3</a>
+                        <span class="tpl-dropdown-list-fr">2 days ago</span>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="am-hide-sm-only"><a href="javascript:" id="admin-fullscreen"
+                                           class="tpl-header-list-link"><span class="am-icon-arrows-alt"></span>
+                <span class="admin-fullText">Full screen</span></a></li>
+
+
+            <li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+                <a class="am-dropdown-toggle tpl-header-list-link"
+                   href="">
+                    <span class="tpl-header-list-user-nick">
+                        root
+                    </span>
+                    <span class="tpl-header-list-user-ico">
+                        <img src="">
+                    </span>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li><a href="#"><span class="am-icon-power-off"></span> exit</a></li>
+                </ul>
+
+            </li>
+            <li>
+                <a href="#" class="tpl-header-list-link">
+                    <span class="am-icon-sign-out tpl-header-list-ico-out-size"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</header>
+
+
+<div class="tpl-page-container tpl-page-header-fixed">
+    <div class="tpl-left-nav tpl-left-nav-hover">
+        <div class="tpl-left-nav-title">
+            something you know
+        </div>
+        <div class="tpl-left-nav-list">
+            <ul class="tpl-left-nav-menu">
+                <li class="tpl-left-nav-item">
+                    <a href="index.html" class="nav-link active">
+                        <i class="am-icon-home"></i>
+                        <span>Panel</span>
+                    </a>
+                </li>
+
+                <li class="tpl-left-nav-item">
+                    <a href="javascript:" class="nav-link tpl-left-nav-link-list">
+                        <i class="am-icon-table"></i>
+                        <span>chart</span>
+                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                    </a>
+                    <ul class="tpl-left-nav-sub-menu">
+                        <li>
+                            <a href="">
+                                <i class="am-icon-angle-right"></i>
+                                <span>chart1</span>
+                                <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
+                            </a>
+
+                            <a href="">
+                                <i class="am-icon-angle-right"></i>
+                                <span>chart2</span>
+                                <i class="tpl-left-nav-content tpl-badge-success">
+                                    18
+                                </i>
+                            </a>
+
+                            <a href="">
+                                <i class="am-icon-angle-right"></i>
+                                <span>chart3</span>
+                                <i class="tpl-left-nav-content tpl-badge-primary">
+                                    5
+                                </i>
+                            </a>
+                            <a href="">
+                                <i class="am-icon-angle-right"></i>
+                                <span>chart4</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="tpl-left-nav-item">
+                    <a href="javascript:" class="nav-link tpl-left-nav-link-list">
+                        <i class="am-icon-wpforms"></i>
+                        <span>Form</span>
+                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right tpl-left-nav-more-ico-rotate"></i>
+                    </a>
+                    <ul class="tpl-left-nav-sub-menu" style="display: block;">
+                        <li>
+                            <a href="">
+                                <i class="am-icon-angle-right"></i>
+                                <span>Form1</span>
+                                <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
+                            </a>
+
+                            <a href="">
+                                <i class="am-icon-angle-right"></i>
+                                <span>Form2</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="tpl-content-wrapper" id="app">
+        <div class="tpl-content-page-title">
+            Status
+        </div>
+        <div class="row">
+            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="am-icon-comments-o"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number"><span id="temperature"></span>°C</div>
+                        <div class="desc"> Temperature</div>
+                    </div>
+                </div>
+            </div>
+            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                <div class="dashboard-stat red">
+                    <div class="visual">
+                        <i class="am-icon-bar-chart-o"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number"><span id="humidity"></span>%</div>
+                        <div class="desc"> Humidity</div>
+                    </div>
+                </div>
+            </div>
+            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                <div class="dashboard-stat green">
+                    <div class="visual">
+                        <i class="am-icon-apple"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number" id="co"></div>
+                        <div class="desc"> CO</div>
+                    </div>
+                </div>
+            </div>
+            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                <div class="dashboard-stat purple">
+                    <div class="visual">
+                        <i class="am-icon-android"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number" id="ap_ssid"></div>
+                        <div class="desc"> WLan</div>
+                    </div>
+                    <a class="more" href="#"> More
+                        <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="tpl-content-scope">
+            <div class="note note-info">
+                <h3>SoyM Message
+                    <span class="close" data-close="note"></span>
+                </h3>
+                <p>Awesome! The status is well now.</p>
+                <p><span class="label label-danger">Warning:</span>
+                    The <span style="color:red">garage door</span> is not close now.
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="app2">
+        <div class="am-u-md-6 am-u-sm-12 row-mb">
+            <div class="tpl-portlet">
+                <div class="tpl-portlet-title">
+                    <div class="tpl-caption font-green ">
+                        <i class="am-icon-cloud-download"></i>
+                        <span> Cloud data statistics</span>
+                    </div>
+                    <div class="actions">
+                        <ul class="actions-btn">
+                            <li class="red-on">Today</li>
+                            <li class="green">Yesterday</li>
+                            <li class="blue">Last week</li>
+                        </ul>
+                    </div>
+                </div>
+                <!--此部分数据请在 js文件夹下中的 app.js 中的 “百度图表A” 处修改数据 插件使用的是 百度echarts-->
+                <div class="tpl-echarts" id="tpl-echarts-A">
+                </div>
+            </div>
+        </div>
+
+        <div class="am-u-md-6 am-u-sm-12 row-mb">
+            <div class="tpl-portlet">
+                <div class="tpl-portlet-title">
+                    <div class="tpl-caption font-red ">
+                        <span>BotController</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="motion_up" class="am-u-sm-8 am-u-sm-offset-4" onclick="up_mode()">
+                        <i class="fas fa-arrow-alt-circle-up fa-5x"></i>
+                    </div>
+                    <div id="motion_left" class="am-u-sm-2 am-u-sm-offset-1" onclick="left_mode()">
+                        <i class="fas fa-arrow-alt-circle-left fa-5x"></i>
+                    </div>
+                    <div id="motion_right" class="am-u-sm-2 am-u-sm-offset-4" onclick="right_mode()">
+                        <i class="fas fa-arrow-alt-circle-right fa-5x"></i>
+                    </div>
+                    <div id="motion_down" class="am-u-sm-8 am-u-sm-offset-4" onclick="down_mode()">
+                        <i class="fas fa-arrow-alt-circle-down fa-5x"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="motion_auto" class="am-u-sm-3 am-u-sm-offset-2" onclick="auto_mode()">
+                        <i class="fab fa-adn fa-5x"></i>
+                    </div>
+                    <div id="motion_wave" class="am-u-sm-6" onclick="wave_mode()">
+                        <i class="fab fa-d-and-d fa-5x"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="am-u-sm-10 am-u-sm-offset-1">
+                        update date:&nbsp;&nbsp;&nbsp;&nbsp;<span
+                            id="bot_motion_update_date"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="am-u-md-6 am-u-sm-12 row-mb">
+            <div class="tpl-portlet">
+                <div class="tpl-portlet-title">
+                    <div class="tpl-caption font-green ">
+                        <span>Assign task</span>
+                        <span class="caption-helper">3 available</span>
+                    </div>
+                    <div class="tpl-portlet-input">
+                        <div class="portlet-input input-small input-inline">
+                            <div class="input-icon right">
+                                <i class="am-icon-search"></i>
+                                <input type="text" class="form-control form-control-solid"
+                                       placeholder="research...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="wrapper" class="wrapper">
+                    <div id="scroller" class="scroller">
+                        <ul class="tpl-task-list">
+                            <li>
+                                <div class="task-checkbox">
+                                    <input type="hidden" value="1" name="test">
+                                    <input type="checkbox" class="liChild" value="2" name="test"></div>
+                                <div class="task-title">
+                                    <span class="task-title-sp"> Available Task 1 </span>
+                                    <span class="label label-sm label-success">Available</span>
+                                    <span class="task-bell">
+                                            <i class="am-icon-bell-o"></i>
+                                        </span>
+                                </div>
+                                <div class="task-config">
+                                    <div class="am-dropdown tpl-task-list-dropdown" data-am-dropdown>
+                                        <a href="#" class="am-dropdown-toggle tpl-task-list-hover "
+                                           data-am-dropdown-toggle>
+                                            <i class="am-icon-cog"></i> <span class="am-icon-caret-down"></span>
+                                        </a>
+                                        <ul class="am-dropdown-content tpl-task-list-dropdown-ul">
+                                            <li>
+                                                <a href="javascript:">
+                                                    <i class="am-icon-check"></i> Save </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:">
+                                                    <i class="am-icon-pencil"></i> Edit </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:">
+                                                    <i class="am-icon-trash-o"></i> Delete </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="task-checkbox">
+                                    <input type="hidden" value="1" name="test">
+                                    <input type="checkbox" class="liChild" value="2" name="test"></div>
+                                <div class="task-title">
+                                    <span class="task-title-sp"> Available Task 2 </span>
+                                    <span class="label label-sm label-danger">Red</span>
+                                </div>
+                                <div class="task-config">
+                                    <div class="am-dropdown tpl-task-list-dropdown" data-am-dropdown>
+                                        <a href="#" class="am-dropdown-toggle tpl-task-list-hover "
+                                           data-am-dropdown-toggle>
+                                            <i class="am-icon-cog"></i> <span class="am-icon-caret-down"></span>
+                                        </a>
+                                        <ul class="am-dropdown-content tpl-task-list-dropdown-ul">
+                                            <li>
+                                                <a href="javascript:">
+                                                    <i class="am-icon-check"></i> Save </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:">
+                                                    <i class="am-icon-pencil"></i> Edit </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:">
+                                                    <i class="am-icon-trash-o"></i> Delete </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="task-checkbox">
+                                    <input type="hidden" value="1" name="test">
+                                    <input type="checkbox" class="liChild" value="2" name="test"></div>
+                                <div class="task-title">
+                                    <span class="task-title-sp"> Available Task 3 </span>
+                                    <span class="label label-sm label-warning">Huang</span>
+
+                                </div>
+                                <div class="task-config">
+                                    <div class="am-dropdown tpl-task-list-dropdown" data-am-dropdown>
+                                        <a href="#" class="am-dropdown-toggle tpl-task-list-hover "
+                                           data-am-dropdown-toggle>
+                                            <i class="am-icon-cog"></i> <span class="am-icon-caret-down"></span>
+                                        </a>
+                                        <ul class="am-dropdown-content tpl-task-list-dropdown-ul">
+                                            <li>
+                                                <a href="javascript:">
+                                                    <i class="am-icon-check"></i> Save </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:">
+                                                    <i class="am-icon-pencil"></i> Edit </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:">
+                                                    <i class="am-icon-trash-o"></i> Delete </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="task-checkbox">
+                                    <input type="hidden" value="1" name="test">
+                                    <input type="checkbox" class="liChild" value="2" name="test"></div>
+                                <div class="task-title">
+                                    <span class="task-title-sp"> Task 4 </span>
+                                    <span class="label label-sm label-default">Unable</span>
+
+                                </div>
+                                <div class="task-config">
+                                    <div class="am-dropdown tpl-task-list-dropdown" data-am-dropdown>
+                                        <a href="#" class="am-dropdown-toggle tpl-task-list-hover "
+                                           data-am-dropdown-toggle>
+                                            <i class="am-icon-cog"></i> <span class="am-icon-caret-down"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="am-u-md-6 am-u-sm-12 row-mb">
+            <div class="tpl-portlet">
+                <div class="tpl-portlet-title">
+                    <div class="tpl-caption font-green ">
+                        <span>Progress</span>
+                    </div>
+                </div>
+
+                <div class="am-tabs tpl-index-tabs" data-am-tabs>
+                    <ul class="am-tabs-nav am-nav am-nav-tabs">
+                        <li class="am-active"><a href="#tab1">In Progress</a></li>
+                        <li><a href="#tab2">Finished</a></li>
+                    </ul>
+
+                    <div class="am-tabs-bd">
+                        <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                            <div id="wrapperA" class="wrapper">
+                                <div id="scroller" class="scroller">
+                                    <ul class="tpl-task-list tpl-task-remind">
+                                        <li>
+                                            <div class="cosB">
+                                                Now
+                                            </div>
+                                            <div class="cosA">
+                                                    <span class="cosIco">
+                                                        <i class="am-icon-bell-o"></i>
+                                                    </span>
+                                                <span> Receive data of sensor.</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="am-tab-panel am-fade" id="tab2">
+                            <div id="wrapperB" class="wrapper">
+                                <div id="scroller" class="scroller">
+                                    <ul class="tpl-task-list tpl-task-remind">
+                                        <li>
+                                            <div class="cosB">
+                                                32 minutes ago
+                                            </div>
+                                            <div class="cosA">
+                                                    <span class="cosIco label-danger">
+                                                        <i class="am-icon-bolt"></i>
+                                                    </span>
+                                                <span> Sensor DATA
+                                                        <span class="tpl-label-info"> Download Data<i
+                                                                class="am-icon-share"></i>
+                                                        </span>
+                                                    </span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.bootcss.com/amazeui/2.7.2/js/amazeui.min.js"></script>
+<script>
+    $(function () {
+
+        var $fullText = $('.admin-fullText');
+        $('#admin-fullscreen').on('click', function () {
+            $.AMUI.fullscreen.toggle();
+        });
+
+        $(document).on($.AMUI.fullscreen.raw.fullscreenchange, function () {
+            $fullText.text($.AMUI.fullscreen.isFullscreen ? '退出全屏' : '开启全屏');
+        });
+
+        var dataType = $('body').attr('data-type');
+        for (var key in pageData) {
+            if (key === dataType) {
+                pageData[key]();
+            }
+        }
+
+        $('.tpl-switch').find('.tpl-switch-btn-view').on('click', function () {
+            $(this).prev('.tpl-switch-btn').prop("checked", function () {
+                if ($(this).is(':checked')) {
+                    return false
+                } else {
+                    return true
+                }
+            })
+        })
+    });
+    // ==========================
+    // 侧边导航下拉列表
+    // ==========================
+
+    $('.tpl-left-nav-link-list').on('click', function () {
+        $(this).siblings('.tpl-left-nav-sub-menu').slideToggle(80)
+            .end()
+            .find('.tpl-left-nav-more-ico').toggleClass('tpl-left-nav-more-ico-rotate');
+    });
+    // ==========================
+    // 头部导航隐藏菜单
+    // ==========================
+
+    $('.tpl-header-nav-hover-ico').on('click', function () {
+        $('.tpl-left-nav').toggle();
+        $('.tpl-content-wrapper').toggleClass('tpl-content-wrapper-hover');
+    });
+</script>
+</body>
+</html>
+
+
+
