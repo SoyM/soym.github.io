@@ -39,7 +39,7 @@
         function onConnect() {
             // Once a connection has been made, make a subscription and send a message.
             console.log("onConnect");
-            client.subscribe("test");
+            client.subscribe("esp/test");
             client.subscribe("set_mode");
             client.subscribe("bot_mode");
             message = new Paho.MQTT.Message("Hello,I am soym_web");
