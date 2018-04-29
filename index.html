@@ -1,76 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="SoyM">
-    <meta name="author" content="SoyM">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="SoyM">
+	<meta name="author" content="SoyM">
 	<link href="/static/favicon.ico" rel="shortcut icon">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style>
-        html, body {
-            height: 100%;
-        }
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	 crossorigin="anonymous">
+	<style>
+		html,
+		body {
+			height: 100%;
+		}
 
-        .soym {
-            height: 100%;
-        }
+		.soym {
+			height: 100%;
+		}
 
-        .container {
-            height: 80%;
-        }
-    </style>
-    <title>SoyM</title>
+		.container {
+			height: 80%;
+		}
+	</style>
+	<title>SoyM</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
+
 <body>
-<div class="soym">
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-        <h5 class="my-0 mr-md-auto font-weight-normal">SoyM</h5>
-        <nav class="my-2 my-md-0 mr-md-3">
-            <a class="p-2 text-dark" href="https://github.com/SoyM">GitHub</a>
-        </nav>
-        <!-- <a class="btn btn-outline-primary" href="">Sign up</a> -->
-    </div>
-    <div class="container">
-        <div class="soym-header px-5 py-5 pt-md-5 pb-md-5 mx-auto text-center">
-            <h1 class="display-4">SoyM</h1>
-            <p class="lead">A developer.</p>
-        </div>
+
+	<div class="soym">
+		<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+			<h5 class="my-0 mr-md-auto font-weight-normal">SoyM</h5>
+			<nav class="my-2 my-md-0 mr-md-3">
+				<a class="p-2 text-dark" href="https://github.com/SoyM">GitHub</a>
+			</nav>
+			<!-- <a class="btn btn-outline-primary" href="">Sign up</a> -->
+		</div>
+
+		<div class="container">
+			<div class="soym-header px-5 py-5 pt-md-5 pb-md-5 mx-auto text-center">
+				<h1 class="display-4">SoyM</h1>
+				<p class="lead">A developer.</p>
+
+				<div id="demo">
+					<template v-for="branch in branches">
+						<input type="radio" :id="branch" :value="branch" name="branch" v-model="currentBranch">
+						<label :for="branch">{{ branch }}</label>
+					</template>
+					<ul>
+						<li v-for="record in commits" style="list-style-type:none;">
+							<a :href="record.url" target="_blank" class="commit">{{ record.title.slice(0, 100) | truncate }}</a>
+						</li>
+					</ul>
+
+					<br/>
+					<br/>
+					<br/>
+					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model='searchKey' />
+					<br/>
+					<br/>
+					<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>		 -->
+				</div>
+			</div>
 
 
-        <div class="row text-center" style="height: 60%">
-            <div class="col-md-4">
-                <a href="/panel/">
-                    <h4 class="font-weight-normal">Panel</h4>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="https://github.com/SoyM/myDoc">
-                    <h4 class="font-weight-normal">Post</h4>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="https://github.com/SoyM?tab=repositories">
-                    <h4 class="font-weight-normal">Repositories</h4>
-                </a>
-            </div>
-        </div>
 
-        <footer class="border-top text-left">
-            <small class="text-muted">© 2018</small>
-        </footer>
-    </div>
-</div>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-64769278-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+			<div class="row text-center" style="height: 60%">
+				<div class="col-md-4">
+					<a href="/panel/">
+						<h4 class="font-weight-normal">Panel</h4>
+					</a>
+				</div>
+				<div class="col-md-4">
+					<a href="https://github.com/SoyM/myDoc">
+						<h4 class="font-weight-normal">Post</h4>
+					</a>
+				</div>
+				<div class="col-md-4">
+					<a href="https://github.com/SoyM?tab=repositories">
+						<h4 class="font-weight-normal">Repositories</h4>
+					</a>
+				</div>
+			</div>
 
-  gtag('config', 'UA-64769278-2');
-</script>
+			<footer class="border-top text-left">
+				<small class="text-muted">© 2018</small>
+			</footer>
+		</div>
+	</div>
+	<script>
+
+
+		var demo = new Vue({
+
+			el: '#demo',
+
+			data: {
+				branches: ['zh', 'en'],
+				currentBranch: 'zh',
+				commits: null,
+				searchKey: '',
+			},
+
+			created: function () {
+				this.fetchData()
+			},
+
+			watch: {
+				searchKey: 'fetchData'
+			},
+
+			filters: {
+				truncate: function (v) {
+					var newline = v.indexOf('\n')
+					return newline > 0 ? v.slice(0, newline) : v
+				},
+				formatDate: function (v) {
+					return v.replace(/T|Z/g, ' ')
+				}
+			},
+
+			methods: {
+				fetchData: function () {
+					var apiURL = 'http://111.230.224.190:8081/search?q=' + this.searchKey + '&w=zhihu'
+					console.log(apiURL)
+					var xhr = new XMLHttpRequest()
+					var self = this
+					xhr.open('GET', apiURL)
+					xhr.onload = function () {
+						self.commits = JSON.parse(xhr.responseText).SearchResults
+						// console.log(self.commits)
+					}
+					xhr.send()
+				}
+			}
+		})
+	</script>
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-64769278-2"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', 'UA-64769278-2');
+	</script>
 </body>
-</html>
 
+</html>
