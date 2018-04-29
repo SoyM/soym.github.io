@@ -28,72 +28,58 @@
 </head>
 
 <body>
+	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #00000013;">
+		<a class="navbar-brand" href="/">Index</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+		 aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-	<div class="soym">
-		<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-			<h5 class="my-0 mr-md-auto font-weight-normal">Index</h5>
-			<!-- <a class="btn btn-outline-primary" href="">Sign up</a> -->
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a class="nav-link" href="/panel/">Panel
+						<span class="sr-only">(current)</span>
+					</a>
+				</li>
+			</ul>
 		</div>
-
-		<div class="container">
-			<div class="soym-header px-5 py-5 pt-md-5 pb-md-5 mx-auto text-center">
-				<h1 class="display-4">SoyM</h1>
-
-				<div id="demo">
-					<template v-for="branch in branches">
-						<input type="radio" :id="branch" :value="branch" name="branch" v-model="currentBranch">
-						<label :for="branch">{{ branch }}</label>
-					</template>
-					
-					<br/>
-					<br/>
-					<br/>
+	</nav>
+	<div class="container-fluid">
+		<div class="soym-header px-5 py-5 pt-md-5 pb-md-5 mx-auto text-center">
+			<h1 class="display-4">SoyM</h1>
+		</div>
+		<div id="demo">
+			<br/>
+			<br/>
+			<br/>
+			<div class="row justify-content-md-center">
+				<div class="col-md-6 col-sm-8">
 					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model='searchKey' />
-					<br/>
-					<br/>
-					<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>		 -->
-					
-					<ul>
-						<li v-for="record in commits" style="list-style-type:none;">
-							<a :href="record.url" target="_blank" class="commit">{{ record.title.slice(0, 100) | truncate }}</a>
-						</li>
-					
-						<li v-for="record in leiphone" style="list-style-type:none;">
-							<a :href="record.url" target="_blank" class="commit">{{ record.title.slice(0, 100) | truncate }}</a>
-						</li>
-					</ul>
-					
 				</div>
 			</div>
+			<br/>
+			<br/>
 
+			<ul>
+				<li v-for="record in commits">
+					<a :href="record.url" target="_blank" class="commit">{{ record.title.slice(0, 100) | truncate }}</a>
+					<br>
+					<br>
+				</li>
 
-
-			<div class="row text-center" style="height: 60%">
-				<div class="col-md-4">
-					<a href="/panel/">
-						<h4 class="font-weight-normal">Panel</h4>
-					</a>
-				</div>
-				<div class="col-md-4">
-					<a href="https://github.com/SoyM/myDoc">
-						<h4 class="font-weight-normal">Post</h4>
-					</a>
-				</div>
-				<div class="col-md-4">
-					<a href="https://github.com/SoyM?tab=repositories">
-						<h4 class="font-weight-normal">Repositories</h4>
-					</a>
-				</div>
-			</div>
-
-			<footer class="border-top text-left">
-				<small class="text-muted">© 2018</small>
-			</footer>
+				<li v-for="record in leiphone">
+					<a :href="record.url" target="_blank" class="commit">{{ record.title.slice(0, 100) | truncate }}</a>
+					<br>
+					<br>
+				</li>
+			</ul>
 		</div>
 	</div>
+
+
+
 	<script>
-
-
 		var demo = new Vue({
 
 			el: '#demo',
@@ -140,22 +126,27 @@
 					leiphone_data(this.searchKey)
 				},
 			}
-			
-		})
-		function leiphone_data (searchKey) {
-					var apiURL = 'http://111.230.224.190:8081/search?q=' + searchKey + '&w=leiphone'
-					console.log(apiURL)
-					var self = this
-					var xhr = new XMLHttpRequest()
-					xhr.open('GET', apiURL)
-					xhr.onload = function () {
-						demo.leiphone = JSON.parse(xhr.responseText).SearchResults
-						// console.log(self.commits)
-					}
-					xhr.send()
-				}
-	</script>
 
+		})
+		function leiphone_data(searchKey) {
+			var apiURL = 'http://111.230.224.190:8081/search?q=' + searchKey + '&w=leiphone'
+			console.log(apiURL)
+			var self = this
+			var xhr = new XMLHttpRequest()
+			xhr.open('GET', apiURL)
+			xhr.onload = function () {
+				demo.leiphone = JSON.parse(xhr.responseText).SearchResults
+				// console.log(self.commits)
+			}
+			xhr.send()
+		}
+	</script>
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	 crossorigin="anonymous"></script>
+	<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	 crossorigin="anonymous"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	 crossorigin="anonymous"></script>
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-64769278-2"></script>
 	<script>
