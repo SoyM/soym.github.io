@@ -52,6 +52,10 @@
 						<li v-for="record in commits" style="list-style-type:none;">
 							<a :href="record.url" target="_blank" class="commit">{{ record.title.slice(0, 100) | truncate }}</a>
 						</li>
+					
+						<li v-for="record in leiphone" style="list-style-type:none;">
+							<a :href="record.url" target="_blank" class="commit">{{ record.title.slice(0, 100) | truncate }}</a>
+						</li>
 					</ul>
 
 					<br/>
@@ -100,6 +104,7 @@
 				branches: ['zh', 'en'],
 				currentBranch: 'zh',
 				commits: null,
+				leiphone: null,
 				searchKey: '',
 			},
 
@@ -123,19 +128,34 @@
 
 			methods: {
 				fetchData: function () {
-					var apiURL = 'http://111.230.224.190:8081/search?q=' + this.searchKey + '&w=zhihu'
+					var apiURL = 'http://127.0.0.1:8081/search?q=' + this.searchKey + '&w=zhihu'
 					console.log(apiURL)
-					var xhr = new XMLHttpRequest()
 					var self = this
+					var xhr = new XMLHttpRequest()
 					xhr.open('GET', apiURL)
 					xhr.onload = function () {
 						self.commits = JSON.parse(xhr.responseText).SearchResults
 						// console.log(self.commits)
 					}
 					xhr.send()
-				}
+
+					leiphone_data(this.searchKey)
+				},
 			}
+			
 		})
+		function leiphone_data (searchKey) {
+					var apiURL = 'http://111.230.224.190:8081/search?q=' + searchKey + '&w=leiphone'
+					console.log(apiURL)
+					var self = this
+					var xhr = new XMLHttpRequest()
+					xhr.open('GET', apiURL)
+					xhr.onload = function () {
+						demo.leiphone = JSON.parse(xhr.responseText).SearchResults
+						// console.log(self.commits)
+					}
+					xhr.send()
+				}
 	</script>
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
