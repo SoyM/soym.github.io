@@ -32,9 +32,6 @@
 	<div class="soym">
 		<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
 			<h5 class="my-0 mr-md-auto font-weight-normal">SoyM</h5>
-			<nav class="my-2 my-md-0 mr-md-3">
-				<a class="p-2 text-dark" href="https://github.com/SoyM">GitHub</a>
-			</nav>
 			<!-- <a class="btn btn-outline-primary" href="">Sign up</a> -->
 		</div>
 
@@ -48,6 +45,15 @@
 						<input type="radio" :id="branch" :value="branch" name="branch" v-model="currentBranch">
 						<label :for="branch">{{ branch }}</label>
 					</template>
+					
+					<br/>
+					<br/>
+					<br/>
+					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model='searchKey' />
+					<br/>
+					<br/>
+					<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>		 -->
+					
 					<ul>
 						<li v-for="record in commits" style="list-style-type:none;">
 							<a :href="record.url" target="_blank" class="commit">{{ record.title.slice(0, 100) | truncate }}</a>
@@ -57,14 +63,7 @@
 							<a :href="record.url" target="_blank" class="commit">{{ record.title.slice(0, 100) | truncate }}</a>
 						</li>
 					</ul>
-
-					<br/>
-					<br/>
-					<br/>
-					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model='searchKey' />
-					<br/>
-					<br/>
-					<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>		 -->
+					
 				</div>
 			</div>
 
