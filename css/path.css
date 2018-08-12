@@ -1,0 +1,103 @@
+html,
+body {
+	height: 100%;
+	width: 100%;
+	margin: 0 auto;
+	background-color: #e7e7e7;
+}
+
+::-webkit-scrollbar{
+	width:5px;
+	background:rgb(253, 219, 239);
+	overflow: hidden;
+	overflow-x: hidden;
+	overflow-y: hidden;
+ } 
+
+ ::-webkit-scrollbar-thumb{
+	-webkit-border-radius:4px;
+	border-radius:4px;
+	background:pink; /* 滚条内嵌颜色 */
+ } 
+
+ ::-webkit-scrollbar-button {
+    background-color:pink;/* 两边端按钮颜色 */
+}
+
+
+#footer{
+	position: absolute;
+	left: 36%;
+	top: 96%;
+	z-index: 2;
+	font-size: 0.8rem;
+	color: rgba(0, 0, 0, 0.32);
+}
+
+#tips {
+	margin-left: 8px;
+}
+
+.dick_button {
+	/* margin-left: 3px; */
+	/* margin-right: 3px; */
+}
+
+#cv_bottom {
+	position: relative;
+	z-index: 1;
+}
+
+#data_panel {
+	position: absolute;
+	text-align: left;
+	z-index: 2;
+	margin-left: 21rem;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	color: #d6333390;
+}
+
+#map {
+	text-align: center;
+}
+
+#locate {
+	/*	top: 8px;
+	left: 8px;*/
+	position: absolute;
+	z-index: 101;
+	pointer-events: none;
+}
+
+#dot {
+	top: 8px;
+	left: 8px;
+	position: absolute;
+	z-index: 100;
+}
+
+.dot {
+	top: 8px;
+	left: 8px;
+	position: absolute;
+	z-index: 100;
+}
+
+.line {
+	position: absolute;
+	z-index: 51;
+}
+
+.no_select {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.sidenav	{
+	width: 280px;
+}
