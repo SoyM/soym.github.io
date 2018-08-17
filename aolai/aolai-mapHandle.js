@@ -1,6 +1,8 @@
 // ===============================
 //  通用 画图操作
 // ===============================
+drawImgByStatus(config.width, config.height);
+
 
 // 移动
 function drawImgByMove(x, y) {
@@ -11,15 +13,12 @@ function drawImgByMove(x, y) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.save();
-    ctx.translate(lastStatus.translateX, lastStatus.translateY);
+
 
     globalMap.mapCenterX = globalMap.mapCenterX + x - lastStatus.mouseX;
     globalMap.mapCenterY = globalMap.mapCenterY + y - lastStatus.mouseY;
 
-    ctx.rotate(imgStatus.rotate * Math.PI / 180, globalMap.mapCenterX, globalMap.mapCenterY);
-    ctx.scale(imgStatus.scale, imgStatus.scale, globalMap.mapCenterX, globalMap.mapCenterY);
-    ctx.drawImage(img, lastStatus.imgX, lastStatus.imgY, img.width, img.height);
-    ctx.restore();
+    draw_globalmap();
 
 
     //  Mark the CENTER of map and the ORIGIN of map 
@@ -37,9 +36,8 @@ function drawImgByMove(x, y) {
 
     // console.log("move-center:"+globalMap.mapCenterX+","+globalMap.mapCenterY);
     // console.log("move-origin:"+globalMap.mapOriginX+","+globalMap.mapOriginY);
-    ctx.fillStyle = "#FF0000";
-    ctx.fillRect(globalMap.mapCenterX, globalMap.mapCenterY, 8, 8);
-    ctx.fillRect(globalMap.mapOriginX, globalMap.mapOriginY, 8, 8);
+
+    markOriginAndCenter();
 
     // 
     // ROBOT
@@ -84,15 +82,12 @@ function drawImgByStatus(x, y) {
     var imgY = lastStatus.imgY - (y - lastStatus.translateY) / lastStatus.scale;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.save();
-    ctx.translate(x, y);
 
     globalMap.mapCenterX += (globalMap.mapCenterX - x) * (lastStatus.scale / globalMap.lastScale - 1);
     globalMap.mapCenterY += (globalMap.mapCenterY - y) * (lastStatus.scale / globalMap.lastScale - 1);
 
-    ctx.rotate(imgStatus.rotate * Math.PI / 180, globalMap.mapCenterX, globalMap.mapCenterY);
-    ctx.scale(imgStatus.scale, imgStatus.scale, globalMap.mapCenterX, globalMap.mapCenterY);
-    ctx.drawImage(img, imgX, imgY, img.width, img.height);
-    ctx.restore();
+    draw_globalmap();
+
 
     last_rotate = lastStatus.rotate;
 
@@ -106,7 +101,7 @@ function drawImgByStatus(x, y) {
     };
 
     //  Mark the CENTER of map and the ORIGIN of map 
-    if ((origin_quadrant == 1)||(origin_quadrant == 2)) {
+    if ((origin_quadrant == 1) || (origin_quadrant == 2)) {
         globalMap.mapOriginX = globalMap.mapCenterX - length_center_origin * Math.sin(-imgStatus.rotate * Math.PI / 180 - angle_center_origin) * imgStatus.scale;
         globalMap.mapOriginY = globalMap.mapCenterY - length_center_origin * Math.cos(-imgStatus.rotate * Math.PI / 180 - angle_center_origin) * imgStatus.scale;
     } else {
@@ -115,9 +110,7 @@ function drawImgByStatus(x, y) {
     }
     // console.log(Math.sin(imgStatus.rotate * Math.PI / 180 + angle_center_origin));
 
-    ctx.fillStyle = "#FF0000";
-    ctx.fillRect(globalMap.mapCenterX, globalMap.mapCenterY, 8, 8);
-    ctx.fillRect(globalMap.mapOriginX, globalMap.mapOriginY, 8, 8);
+    markOriginAndCenter();
 
     // 
     // ROBOT 
@@ -125,44 +118,10 @@ function drawImgByStatus(x, y) {
     locate.width = globalMap.robotWidth * lastStatus.scale;
     locate.height = globalMap.robotHeight * lastStatus.scale;
 
-    // x_robot_mapping = globalMap.mapCenterX + center_to_origin_x + globalMap.robotOriginX / img_resolution;
-    // y_robot_mapping = globalMap.mapCenterY + center_to_origin_y - globalMap.robotOriginY / img_resolution;
 
-    // x_center_robot = x_robot_mapping - globalMap.mapCenterX;
-    // y_center_robot = globalMap.mapCenterY - y_robot_mapping;
-
-    // //  机器人 到 网页原点 的 长度
-    // length_origin_robot = Math.sqrt(Math.pow(x_center_robot, 2) + Math.pow(y_center_robot, 2));
-
-
-    // // 机器人位于 图片中心坐标 第一， 四象限
-    // if ((x_robot_mapping > globalMap.mapCenterX)) {
-    //     angle_origin_robot = Math.atan(y_center_robot / x_center_robot);
-    //     globalMap.robotOffsetTop = globalMap.mapCenterY - length_origin_robot * Math.sin(-imgStatus.rotate * Math.PI / 180 + angle_origin_robot) * imgStatus.scale;
-    //     globalMap.robotOffsetLeft = globalMap.mapCenterX + length_origin_robot * Math.cos(-imgStatus.rotate * Math.PI / 180 + angle_origin_robot) * imgStatus.scale;
-    // }
-    // // 机器人位于 图片中心坐标 第二，三象限 
-    // else if ((x_robot_mapping < globalMap.mapCenterX)) {
-    //     angle_origin_robot = Math.atan(y_center_robot / x_center_robot);
-    //     globalMap.robotOffsetTop = globalMap.mapCenterY + length_origin_robot * Math.sin(-imgStatus.rotate * Math.PI / 180 + angle_origin_robot) * imgStatus.scale;
-    //     globalMap.robotOffsetLeft = globalMap.mapCenterX - length_origin_robot * Math.cos(-imgStatus.rotate * Math.PI / 180 + angle_origin_robot) * imgStatus.scale;
-    // }
     var mapped = rotate_mapping(globalMap.robotOriginX, globalMap.robotOriginY);
     globalMap.robotOffsetTop = mapped.y;
     globalMap.robotOffsetLeft = mapped.x;
-
-    // 机器人位于 图片中心坐标 第三象限 
-    // else if ((x_robot_mapping < globalMap.mapCenterX) && (y_robot_mapping > globalMap.mapCenterY)) {
-    //     angle_origin_robot = Math.atan(y_center_robot / x_center_robot);
-    //     globalMap.robotOffsetTop = globalMap.mapCenterY + length_origin_robot * Math.sin(-imgStatus.rotate * Math.PI / 180 + angle_origin_robot) * imgStatus.scale;
-    //     globalMap.robotOffsetLeft = globalMap.mapCenterX - length_origin_robot * Math.cos(-imgStatus.rotate * Math.PI / 180 + angle_origin_robot) * imgStatus.scale;
-    // }
-    // 机器人位于 图片中心坐标 第四象限
-    // else if ((x_robot_mapping > globalMap.mapCenterX) && (y_robot_mapping > globalMap.mapCenterY)) {
-    //     angle_origin_robot = Math.atan(y_center_robot / x_center_robot);
-    //     globalMap.robotOffsetTop = globalMap.mapCenterY - length_origin_robot * Math.sin(-imgStatus.rotate * Math.PI / 180 + angle_origin_robot) * imgStatus.scale;
-    //     globalMap.robotOffsetLeft = globalMap.mapCenterX + length_origin_robot * Math.cos(-imgStatus.rotate * Math.PI / 180 + angle_origin_robot) * imgStatus.scale;
-    // }
 
     // locate_ctx.clearRect(0, 0, locate.width, locate.height);
     locate_ctx.save();
@@ -247,3 +206,12 @@ function drawImgByStatus(x, y) {
     globalMap.lastScale = imgStatus.scale;
 }
 
+// 标注 图片中心 和 地图原点
+function markOriginAndCenter() {
+    ctx.beginPath();
+    ctx.arc(globalMap.mapCenterX, globalMap.mapCenterY, 4, 0, 2 *
+        Math.PI);
+    ctx.fillStyle = "red";
+    ctx.fill();
+    ctx.fillRect(globalMap.mapOriginX, globalMap.mapOriginY, 8, 8);
+}

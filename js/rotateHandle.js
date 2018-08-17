@@ -1,7 +1,14 @@
 function rotate_mapping(x, y) {
 
-    x_mapping = globalMap.mapCenterX + center_to_origin_x + x / img_resolution;
-    y_mapping = globalMap.mapCenterY + center_to_origin_y - y / img_resolution;
+    x_mapping = (origin_quadrant==1)||(origin_quadrant==4)?
+    globalMap.mapCenterX + center_to_origin_x + x / img_resolution:
+    globalMap.mapCenterX - center_to_origin_x + x / img_resolution;
+    y_mapping = (origin_quadrant==1)||(origin_quadrant==2)?
+    globalMap.mapCenterY - center_to_origin_y - y / img_resolution:
+    globalMap.mapCenterY + center_to_origin_y - y / img_resolution;
+
+    // console.log("x_mapping" + x_mapping);
+    // console.log("y_mapping" + y_mapping);
 
     // x_dot base on center
     length_x = x_mapping - globalMap.mapCenterX;

@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <!-- <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0"> -->
     <title>蓝因机器人控制系统</title>
-    <link href="./css/lib/materialize.min.css" rel="stylesheet">
-    <link href="./css/lib/font-awesome.min.css" rel="stylesheet">
-    <link href="./css/path.css" rel="stylesheet">
-    <script src="./js/lib/vue.js"></script>
+    <link href="../css/lib/materialize.min.css" rel="stylesheet">
+    <link href="../css/lib/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/path.css" rel="stylesheet">
+    <script src="../js/lib/vue.js"></script>
 </head>
 
 <body>
@@ -18,7 +18,7 @@
                 <div class="user-view">
 
                     <a href="http://www.cyaninetech.com/">
-                        <img height="82px" width="" src="./img/soym.png">
+                        <img height="82px" width="" src="../img/soym.png">
                     </a>
 
                 </div>
@@ -32,7 +32,7 @@
                                 <span style="font-size: 15px">Robot IP</span>
                             </label>
                             <input v-model="ip" id="ip" name="ip" type="text" class="validate black-text">
-                            
+
                         </div>
                         <div class="col s6 no_select" style="color: black">
                             status:
@@ -75,22 +75,32 @@
                         </a>
                     </div>
                 </div>
-                <p v-if="rotate_seen" class="no_select">地图旋转</p>
-                <div class="row">
-                    <div class="col s4 offset-s2">
-                        <a class="btn-floating no_select" onclick="rotate_left()">
-                            <i class="fa fa-undo" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                    <div class="col s4">
-                        <a class="btn-floating no_select" onclick="rotate_right()">
-                            <i class="fa fa-repeat" aria-hidden="true"></i>
-                        </a>
+                <div v-if="rotate_seen">
+                    <p class="no_select">地图旋转</p>
+                    <div class="row">
+                        <div class="col s4 offset-s2">
+                            <a class="btn-floating no_select" onclick="rotate_left()">
+                                <i class="fa fa-undo" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div class="col s4">
+                            <a class="btn-floating no_select" onclick="rotate_right()">
+                                <i class="fa fa-repeat" aria-hidden="true"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
+            <p class="no_select">____________________________</p>
 
-            <li>
+            <a href="./index.html">数据保存图表</a><br>
+            <a href="./dataChart2.html">数据保存图表2</a><br>
+            <a href="./dataChart3.html">数据保存图表3</a><br>
+            <a href="./route1.html">路线图1</a><br>
+            <a href="./route2.html">路线图2</a><br>
+            <a href="./route3.html">路线图3</a><br>
+
+            <!-- <li>
                 <div id="tips" style="font-size: 14px; color: #fff;line-height: 20px;">
                     <button v-on:click="showtips" class="btn no_select" style="color:white;background-color: palevioletred">查看温馨提示</button>
                     <br>
@@ -99,23 +109,25 @@
                             {{tips_message}}
                         </div>
                     </div>
+                    
                 </div>
-            </li>
+            </li> -->
+
         </ul>
 
         <!-- <a href="#" data-target="slide-out" class="sidenav-trigger" ><i class="material-icons" style="font-size: 8rem">menu</i></a> -->
 
 
-         <div id="data_panel">
-			<div> 
-        <!-- Robot X: {{robotOriginX}} -->
-        <!-- <br> Robot Y: {{robotOriginY}} -->
-        <br>Scale: {{lastScale}}
-				<br> Origin X: {{mapOriginX}}
-				<br> Origin Y: {{mapOriginY}}
+        <div id="data_panel">
+            <div>
+                <!-- Robot X: {{robotOriginX}} -->
+                <!-- <br> Robot Y: {{robotOriginY}} -->
+                <br>Scale: {{lastScale}}
+                <br> Origin X: {{mapOriginX}}
+                <br> Origin Y: {{mapOriginY}}
 
-			</div>
-		</div> 
+            </div>
+        </div>
 
         <canvas id="cv_bottom"></canvas>
 
@@ -135,24 +147,29 @@
 
     <!-- <script src="https://static.robotwebtools.org/EventEmitter2/0.4.14/eventemitter2.min.js"></script> -->
     <!-- <script type="text/javascript" src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script> -->
-    <script src="./js/lib/jquery.js"></script>
-    <script src="./js/lib/eventemitter2.min.js"></script>
-    <script src="./js/lib/roslib.min.js"></script>
+    <script src="../js/lib/jquery.js"></script>
+    <script src="../js/lib/eventemitter2.min.js"></script>
+    <script src="../js/lib/roslib.min.js"></script>
     <!-- <script src="./js/lib/jquery-ui.js"></script> -->
-    <script src="./js/lib/materialize.min.js"></script>
-    
+    <script src="../js/lib/materialize.min.js"></script>
+
 
     <!-- user -->
-    <script src="./js/commonHandle.js"></script>
-    <script src="./js/config.js"></script>
-    <script src="./js/protocolHandle.js"></script>
-    <script src="./js/init.js"></script>
+    <script src="../js/commonHandle.js"></script>
+    <script src="./aolai-config.js"></script>
+    <script src="../js/protocolHandle.js"></script>
+    <script src="./aolai-init.js"></script>
+
+    <script src="./dataChart3.js"></script>
+
+
     <!-- <script src="./js/prototype.js"></script> -->
-    <script src="./js/path.js"></script>
-    <script src="./js/buttonHandle.js"></script>
-    <script src="./js/mapHandle.js"></script>
-    <script src="./js/rotateHandle.js"></script>
-    <script src="./js/targetDotHandle.js"></script>
+    <script src="../js/path.js"></script>
+    <script src="../js/buttonHandle.js"></script>
+    <script src="../js/rotateHandle.js"></script>
+    <script src="./aolai-mapHandle.js"></script>
+    <script src="../js/targetDotHandle.js"></script>
+
 </body>
 
 </html>

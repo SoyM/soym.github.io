@@ -1,4 +1,4 @@
-var debug = false;
+var debug = true;
 
 // ==Default================================
 //  地图配置
@@ -97,7 +97,7 @@ var globalMap = new Vue({
         tips_seen: false,
         button_seen: false,
         robot_seen: true,
-        rotate_seen: true,
+        rotate_seen: false,
         seen: false,
 
         Mode_mapMove: true,
@@ -145,3 +145,7 @@ var globalMap = new Vue({
         }
     },
 });
+
+
+var line_num = 20;
+var line_space = 15;

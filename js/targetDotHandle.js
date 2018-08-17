@@ -15,7 +15,7 @@ function addMapTarget(x, y) {
         // node.style.overflow = 'hidden';
         node.style.top = y - SET_RADIUS + 'px';
         node.style.left = x - SET_RADIUS + 'px';
-        
+
         document.getElementById(CANVAS_IN_CANVAS).appendChild(node);
         draw_cirle(node.id, SET_RADIUS, SET_RADIUS, yellow);
         var tmp = "#" + node.id;
@@ -161,8 +161,12 @@ function set_pose(x, y, dot_id) {
     }
     // console.log("base_dot_error_coordinates:\n" + pose_trans_x(base_dot_left) + "," + pose_trans_y(base_dot_top));
 
-    mapOriginY = globalMap.mapCenterY + center_to_origin_y * lastStatus.scale;
-    mapOriginX = globalMap.mapCenterX + center_to_origin_x * lastStatus.scale;
+    mapOriginY = (origin_quadrant == 3) || (origin_quadrant == 4) ?
+        globalMap.mapCenterY + center_to_origin_y * lastStatus.scale :
+        globalMap.mapCenterY - center_to_origin_y * lastStatus.scale;
+    mapOriginX = (origin_quadrant == 1) || (origin_quadrant == 4) ?
+        globalMap.mapCenterX + center_to_origin_x * lastStatus.scale :
+        globalMap.mapCenterX - center_to_origin_x * lastStatus.scale;
 
     map_x = (base_dot_left - mapOriginX) / lastStatus.scale * img_resolution;
     map_y = (mapOriginY - base_dot_top) / lastStatus.scale * img_resolution;
@@ -185,7 +189,7 @@ function set_pose(x, y, dot_id) {
     // map_x = pose_trans_x(x);
     // map_y = pose_trans_y(y);
     fuck_dot[dot_id] = [map_x, map_y];
-    // console.log(fuck_dot);
+    console.log(fuck_dot);
 
     var pose = new ROSLIB.Message({
         header: {

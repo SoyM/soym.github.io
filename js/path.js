@@ -1,80 +1,3 @@
-var b;
-var host_tmp_id;
-var command;
-var s_msg;
-var pause_msg;
-var save_msg;
-var goalend_msg;
-
-
-
-var vpose;
-var request_msg = new ROSLIB.Message({
-    header: {
-        stamp: new Date().getTime(),
-        frame_id: "@" + host_tmp_id,
-    },
-    type: 0,
-    command: 0,
-    patrol_pose: {
-        index: 0,
-        pose: vpose,
-    }
-
-});
-
-function rand(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-}
-
-function get_rand_req_id() {
-    return rand(10000, 99999);
-}
-
-
-function set_request_msg(host_tmp_id, req_rand_id, type, command, index, patrol_pose) {
-    //var msg = new ROSLIB.Message
-    request_msg.header.frame_id = host_tmp_id + '@' + req_rand_id;
-    request_msg.type = type;
-    request_msg.command = command;
-    request_msg.patrol_pose.pose = patrol_pose;
-    request_msg.patrol_pose.index = index;
-    request_msg.header.stamp = new Date().getTime();
-    return request_msg;
-}
-
-
-function rep_hs_third(response) {
-    //console.log("publish third handshake")
-    response.type = HS_3;
-    response.header.stamp = new Date().getTime();
-
-    var rep_hs_third = new ROSLIB.Topic({
-        ros: ros,
-        name: '/control',
-        queue_size: 10,
-        messageType: 'actioncli_move_base/ControlRequest'
-    });
-
-    rep_hs_third.publish(response);
-}
-
-
-
-function check_timestmap(pub_time, sub_time) {
-    if (sub_time > pub_time) {
-        //console.log("time error.")
-        return false;
-    } else {
-        return true;
-    }
-
-}
-
-
-// nai....................................
-
-
 
 // window.onload = function () {
 //     var ispc = navigator.platform;
@@ -94,8 +17,7 @@ function init_ros() {
     var req_id = get_rand_req_id();
     var index = 0;
 
-    var init_msg = set_request_msg(host_tmp_id, req_id, HS_1, INIT_AND_RELOAD, index, vpose)
-
+    var init_msg = set_request_msg(host_tmp_id, req_id, HS_1, INIT_AND_RELOAD, index, vpose);
 
 
     var init_control_pub = new ROSLIB.Topic({
@@ -110,7 +32,6 @@ function init_ros() {
 
 
     botton_callback(init_msg);
-
 
 }
 
@@ -514,104 +435,12 @@ function delete_cv(id) {
 
 
 
-function notify(message, time, css) {
-
-    switch (css) {
-        case "success":
-            //toastr.success(message, {timeOut: 100000000})
-            M.toast({
-                html: message,
-                classes: 'rounded green'
-            });
-            break;
-        case "warn":
-            M.toast({
-                html: message,
-                classes: 'blue'
-            });
-            break;
-        case "error":
-            M.toast({
-                html: message,
-                classes: 'red'
-            });
-            break;
-        default:
-            console.log("error notify type");
-    }
-
-}
-
-
-
-
-function phone_tap() {
-    var path = document.getElementById(MAP_ID);
-    path.addEventListener('touchstart', function (e) {
-        //  $("#"+MAP_ID).on("tap",function(e){
-        if (isJqmGhostClick(e)) {
-            return;
-        }
-        var canvas = document.getElementById(CV_BOTTOM);
-        if (canvas.getContext && path_err == 0 && forbidden == 0 && end == 0) {
-
-            // offset_left = $("#"+CV_BOTTOM)[0].offsetLeft;
-            // offset_top = $("#"+CV_BOTTOM)[0].offsetTop;
-            if (navigator.platform.indexOf("iPhone") !== -1 || navigator.platform.indexOf("iPad") !== -1) {
-                x = e.pageX - offset_left;
-                y = e.pageY - offset_top;
-            } else {
-
-                x = e.targetTouches[0].pageX - offset_left;
-                y = e.targetTouches[0].pageY - offset_top;
-            }
-
-            var ctx = canvas.getContext('2d');
-            var imageData = ctx.getImageData(x, y, 1, 1);
-            var pose = Array();
-
-
-            if (imageData.data[0] >= 250) {
-                var node = document.createElement("canvas");
-                node.id = CV_NAME + dot_id;
-                node.width = SET_RADIUS * 2;
-                node.height = SET_RADIUS * 2;
-                node.className = 'dot';
-                node.style.top = y - SET_RADIUS + offset_top + 'px';
-                node.style.left = x - SET_RADIUS + offset_left + 'px';
-
-                document.getElementById(MAP_ID).appendChild(node);
-                draw_cirle(node.id, SET_RADIUS, SET_RADIUS, yellow);
-                var tmp = "#" + node.id;
-                // the ios clientX is different from android clintx.
-                // if( navigator.platform.indexOf("iPhone")!==-1 || navigator.platform.indexOf("iPad")!==-1 ){
-
-                //console.log('offset_top',offset_top)
-                //console.log('y',y)
-
-                pose[dot_id] = set_pose(x, y, dot_id);
-                frame_id = pose[dot_id].header.frame_id;
-                posestamped.publish(pose[dot_id]);
-                tag.status = 0;
-                tag.no = dot_id;
-                ros_callback(tag);
-                dot_id++;
-                line_id++;
-            }
-        }
-    });
-}
-
-
-
 /*send path button.*/
 function ros_callback(tag, req) {
     forbidden = 1;
     //Subscribing to a Topic
 
-
     // Then we add a callback to be called every time a message is published on this topic.
-
 
     var point_second = new ROSLIB.Topic({
         ros: ros,
@@ -619,8 +448,6 @@ function ros_callback(tag, req) {
         queue_size: 1,
         messageType: 'actioncli_move_base/SystemResponse'
     });
-
-
 
 
     if (tag.drag == 0) {
@@ -705,9 +532,9 @@ function ros_callback(tag, req) {
                         //console.log(dot_id - tag.no)
                         if (dot_id - tag.no !== 1) {
                             path_err = 1;
-                            console.log("first plan error.")
+                            console.log("first plan error.");
                         } else {
-                            console.log("drag the first point.")
+                            console.log("drag the first point.");
                         }
                     }
 
@@ -726,10 +553,10 @@ function ros_callback(tag, req) {
                         //forbidden = 1;
                         if (dot_id - tag.no !== 1) {
                             path_err = 1;
-                            console.log("second plan error.")
+                            console.log("second plan error.");
                         } else {
                             forbidden = 0;
-                            console.log("drag the first point.")
+                            console.log("drag the first point.");
                         }
                     }
 
@@ -737,8 +564,8 @@ function ros_callback(tag, req) {
                     point_second.unsubscribe();
                 } else {
                     path_err = 1;
-                    notify(message.info, 2000, 'warn')
-                    console.log("the planner service is error.")
+                    notify(message.info, 2000, 'warn');
+                    console.log("the planner service is error.");
                     rep_hs_third(req);
                     point_second.unsubscribe();
                 }
@@ -751,43 +578,3 @@ function ros_callback(tag, req) {
         });
     }
 }
-
-
-
-
-
-
-
-
-$(window).bind('beforeunload', function () {
-
-
-
-    var discon_control_pub = new ROSLIB.Topic({
-        ros: ros,
-        name: '/control',
-        queue_size: 1,
-        messageType: 'actioncli_move_base/ControlRequest'
-    });
-
-
-    var req_id = get_rand_req_id();
-    var index = 0;
-
-    var dis_msg = set_request_msg(host_tmp_id, req_id, HS_1, DIS_CONNECT, index, vpose);
-
-
-    discon_control_pub.publish(dis_msg);
-
-
-
-    botton_callback(dis_msg);
-
-
-    host_tmp_id = randomWord(false, 12);
-
-    // command.publish(close_window_msg);
-    //alert("Goodbye!");
-
-
-});

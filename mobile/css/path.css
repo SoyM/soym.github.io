@@ -1,0 +1,149 @@
+html {
+ font-size: 62.5%; 
+}
+
+body {
+	margin: 0 auto;
+ font-size: 2rem;
+ /*background-color: #e7e7e7;*/
+}
+
+h1 {
+ font-size: 5.0rem;
+}
+
+label,p,h4,li {
+  margin-left: 8px;
+  color: #cccccc;
+}
+
+input{
+	/*background: #aaaae2;*/
+}
+
+button {
+  background: #1954b0;
+  margin-left: 8px;
+  margin-right: 8px;
+
+}
+button:hover{
+  background: #131347;
+}
+button:active{
+  transform: scale(.90);
+}
+
+code{
+  background: #1954b0;
+  border: 1px solid #030316;
+  color: #f5f5f5;
+}
+
+#logo{
+	/*position: relative;*/
+	 background:url(../img/logo.png) no-repeat left center;
+	 background-size: 60px;
+	 background-position: 80px;
+}
+
+.row > :first-child {
+  margin-left: 8px;
+}
+
+
+#cv_bottom{
+	position: relative;
+	z-index: 1;
+}
+
+#canvas_in_canvas{
+	position: absolute;
+	z-index: 75;
+}
+
+#line_div{
+	position: fixed;
+	z-index: 50;
+}
+
+.bottom{
+	position: relative;
+	z-index: 1;
+}
+
+
+#locate{
+/*	top: 8px;
+	left: 8px;*/
+	position: absolute;
+	z-index: 150;
+}
+
+#dot{
+	top: 8px;
+	left: 8px;
+	position: absolute;
+	z-index: 100;
+}
+
+.dot{
+	top: 8px;
+	left: 8px;
+	position: absolute;
+	z-index: 100;
+}
+
+.line{
+	position: fixed;
+	z-index: 51;
+}
+
+.title h1{
+	/*text-align: left;*/
+	padding-left:150px; 
+	margin-bottom: 10px;
+	color: #cccccc;
+}
+
+
+.deputy-title{
+	padding-top: 0px;
+	padding-left:150px; 
+	/*text-align: left;*/
+	color: #cccccc;
+}
+
+#map{
+	text-align: center;	
+}
+
+.guide {
+	margin-left: 8px;
+	color: #cccccc;
+	font-size: 1.5rem;	
+}
+
+.header{
+	margin-left: 8px;
+	margin-bottom: 15px;
+	/*margin-top: 20px;*/
+	padding-top: 8px;
+	color: #cccccc;
+	font-size: 2.5rem;	
+}
+
+.content{
+	margin-left: 8px;
+	margin-top: 10px;
+	color: #cccccc;
+	font-size: 2rem;	
+}
+
+.guides{
+	color: #cccccc;
+	background-color: #2c4770;
+	margin-left: 10px;
+	margin-right: 10px;
+	box-shadow: 0 5px 15px #131347;	
+}
