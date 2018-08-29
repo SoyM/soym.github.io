@@ -47,6 +47,9 @@ var dot_tmp_hub = [];
 // 标记是否移动事件
 var isMove = false;
 
+var meshGridPoint = Array();
+var meshGridPointCount = 0;
+
 // =================
 // Materialize Init
 // =================
@@ -206,6 +209,18 @@ function golbalInit(golbalWidth, golbalHeight) {
         lastStatus.mouseX = box.x;
         lastStatus.mouseY = box.y;
 
+
+        meshGridPoint[meshGridPointCount] = [e.clientX, e.clientY];
+        var foo_octmc = oneClickToMapCoordinate(e.clientX, e.clientY);
+        meshGridPoint[meshGridPointCount].map_x = foo_octmc[0];
+        meshGridPoint[meshGridPointCount].map_y = foo_octmc[1];
+        console.log(meshGridPoint);
+        meshGridPointCount++;
+        if (meshGridPoint.length == 2) {
+            draw_meshGrid(meshGridPoint, 20);
+        }
+
+
         if (globalMap.Mode_mapMove == false) {
             // console.log(111);
             // ------ after connect ----------------------------------------------------------------
@@ -216,10 +231,13 @@ function golbalInit(golbalWidth, golbalHeight) {
                 // console.log("line_id"+line_id+"dot_id"+dot_id);
                 // console.log(document.getElementById(LINE_NAME + line_id));
                 if (line_id > 0) {
+                    // console.log(line_id);
                     if (document.getElementById(LINE_NAME + line_id) === null) {
+                        // console.log("444");
                         return;
                     }
                 }
+                // console.log("555");
                 //if(end == 0){
 
                 addMapTarget(e.clientX, e.clientY);
@@ -277,6 +295,12 @@ function golbalInit(golbalWidth, golbalHeight) {
 
     var onmousemove_count = 0;
     canvas.onmousemove = function (e) {
+        console.log(meshGridPoint.length);
+        if (meshGridPoint.length == 1) {
+
+        }
+
+
         if (isMove) {
             // console.log(e.clientX + "," + e.clientY);
             // console.log(lastStatus.translateX);
@@ -302,6 +326,7 @@ function golbalInit(golbalWidth, golbalHeight) {
         clinet_x = e.touches[0].clientX;
         clinet_y = e.touches[0].clientY;
         // console.log(clinet_x + "," + clinet_y);
+
         if (isMove) {
             // console.log(lastStatus.translateX);
             if (((globalMap.mapCenterX < config.width - 10 || lastStatus.mouseX - clinet_x > 0) &&
@@ -334,8 +359,6 @@ function golbalInit(golbalWidth, golbalHeight) {
         // drawImgByStatus(mXY.x, mXY.y);
         drawImgByStatus(globalMap.mapCenterX, globalMap.mapCenterY);
     };
-
-
 }
 
 
@@ -377,4 +400,81 @@ function windowToCanvas(x, y) {
         'x': x - box.left,
         'y': y - box.top
     };
+}
+
+
+function draw_meshGrid(meshGridPoint, line_num) {
+    console.log(meshGridPoint);
+    // ctx.beginPath();
+    var middlePosi_x;
+    var middlePosi_y;
+    if (meshGridPoint[0][0] - meshGridPoint[1][0] >= 0) {
+        middlePosi_x = meshGridPoint[1][0] + (meshGridPoint[0][0] - meshGridPoint[1][0]) / 2;
+    } else {
+        middlePosi_x = meshGridPoint[0][0] + (meshGridPoint[1][0] - meshGridPoint[0][0]) / 2;
+    }
+
+    if (meshGridPoint[0][1] - meshGridPoint[1][1] >= 0) {
+        middlePosi_y = meshGridPoint[1][1] + (meshGridPoint[0][1] - meshGridPoint[1][1]) / 2;
+    } else {
+        middlePosi_y = meshGridPoint[0][1] + (meshGridPoint[1][1] - meshGridPoint[0][1]) / 2;
+    }
+
+    var angle = Math.atan(Math.abs(meshGridPoint[0][1] - meshGridPoint[1][1]) / Math.abs(meshGridPoint[0][0] - meshGridPoint[1][0]));
+
+    var max_length = Math.sqrt(Math.pow(meshGridPoint[0][0] - meshGridPoint[1][0], 2) + Math.pow(meshGridPoint[0][1] - meshGridPoint[1][1], 2));
+    var squareLength = Math.sqrt(Math.pow(max_length, 2) / 2);
+    var line_space = squareLength / line_num;
+
+    leftPosi_x = middlePosi_x - max_length * Math.sin(angle);
+    leftPosi_y = middlePosi_y - max_length * Math.cos(angle);
+    rightPosi_x = middlePosi_x + max_length * Math.cos(angle);
+    rightPosi_y = middlePosi_y - max_length * Math.sin(angle);
+
+    ctx.lineWidth = "2";
+    ctx.strokeStyle = "orange";
+
+    var disparity_x = meshGridPoint[0][0] - meshGridPoint[1][0];
+    var disparity_y = meshGridPoint[0][1] - meshGridPoint[1][1];
+
+
+    for (var i = 0; i < line_num; i++) {
+        ctx.beginPath();
+
+        ctx.moveTo(meshGridPoint[0][0] + (max_length * Math.sin(angle) / line_num) * i, meshGridPoint[0][1] - (max_length / line_num) * i * Math.cos(angle));
+        ctx.lineTo(meshGridPoint[1][0] + (max_length * Math.sin(angle) / line_num) * i, meshGridPoint[1][1] - (max_length / line_num) * i * Math.cos(angle));
+
+        foo_x = disparity_x > 0 ? meshGridPoint[1][0] + Math.abs(disparity_x) * i / line_num : meshGridPoint[0][0] + Math.abs(disparity_x) * i / line_num;
+        foo_y = disparity_y > 0 ? meshGridPoint[1][1] + Math.abs(disparity_y) * i / line_num : meshGridPoint[0][1] + Math.abs(disparity_y) * i / line_num;
+
+        foo2_x = disparity_x > 0 ? meshGridPoint[1][0] + max_length * Math.sin(angle) + Math.abs(disparity_x) * i / line_num : meshGridPoint[0][0] + max_length * Math.sin(angle) + +Math.abs(disparity_x) * i / line_num;
+        foo2_y = disparity_y > 0 ? meshGridPoint[1][1] - max_length * Math.cos(angle) + Math.abs(disparity_y) * i / line_num : meshGridPoint[0][1] - max_length * Math.cos(angle) + Math.abs(disparity_y) * i / line_num;
+
+        ctx.moveTo(foo_x, foo_y);
+        ctx.lineTo(foo2_x, foo2_y);
+
+        // ctx.arc(globalMap.mapCenterX, globalMap.mapCenterY, ((i + 1) * line_space) * imgStatus.scale, 0, 2 *
+        //     Math.PI);
+        ctx.stroke();
+        ctx.restore();
+    }
+
+
+    // for (i = 0; i <= line_num; i += 2) {
+    //     text(globalMap.mapCenterX + ((i) * line_space) * imgStatus.scale, globalMap.mapCenterY - 2, i / 2);
+    //     text(globalMap.mapCenterX - 5, globalMap.mapCenterY - ((i) * line_space) * imgStatus.scale, i / 2);
+    // }
+}
+
+
+function text(left, top, n, color) {
+    ctx.beginPath();
+    ctx.save(); //save和restore可以保证样式属性只运用于该段canvas元素
+    ctx.fillStyle = "black"; //设置描边样式
+    ctx.font = "lighter 10px Arial"; //设置字体大小和字体
+    ctx.textAlign = "center";
+    //绘制字体，并且指定位置
+    ctx.fillText(n.toFixed(0), left, top);
+    ctx.fill(); //执行绘制
+    ctx.restore();
 }

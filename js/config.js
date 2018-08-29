@@ -3,7 +3,7 @@ var debug = false;
 // ==Default================================
 //  地图配置
 // =========================================
-var mapImgSrc = './img/chuangkexueyuan.png';
+var mapImgSrc = '/img/chuangkexueyuan.png';
 var img_resolution = 0.07;
 var img_width = 495;
 var img_height = 629;
@@ -22,6 +22,20 @@ var body_bgcolor = '#e7e7e7';
 // origin_y = -20.374997999999998;
 // body_bgcolor = 'rgb(205, 205, 205)';
 
+// ==Replaceable================================
+//  地图配置
+// =========================================
+var mapImgSrc = '/img/cropped.png';
+var img_resolution = 0.07;
+var img_width = 495;
+var img_height = 629;
+var origin_x = -21.455003999999988;
+var origin_y = -15.575003999999986;
+var body_bgcolor = 'rgb(204, 204, 204)';
+
+
+
+
 // ===============================
 // 读取其他配置
 // ===============================
@@ -35,9 +49,11 @@ var body_bgcolor = '#e7e7e7';
 // 基础配置
 // ===============================
 var web_dispaly_hz = 0.1;
+var canvas_width_offerset = 5;
+var canvas_height_offerset =10;
 var config = {
-    width: document.body.clientWidth - 5, // 设置canvas的宽
-    height: document.documentElement.clientHeight - 7, // 设置canvas的高
+    width: document.body.clientWidth - canvas_width_offerset, // 设置canvas的宽
+    height: document.documentElement.clientHeight - canvas_height_offerset, // 设置canvas的高
     imgSrc: mapImgSrc, // 图片路径
     maxScale: 4.6, // 最大放大倍数
     minScale: 0.6, // 最小放大倍数
@@ -79,12 +95,9 @@ var SET_strokeStyle = "#888888";
 var SET_globalAlpha = 0.618;
 var LINE_WETGHT = 3;
 var new_window = 0;
+var nav_seen = true;
 
 
-// 
-// 移动适配
-// 
-// if(window.orientation );
 var tips_message = "1,输入机器人地址，然后点击Connect按钮\
 2,连接成功后，在地图上空白处点击第一个点，为机器人的起始位置\
 3,点击第二个点 ，等待机器人响应。 若是可以到达，地图上将会出现一条路径，以此操作，您可以添加您想要的路径 如果您点击的位置是一个红色的点，请耐心等候，有可能是网络原因或者是路径不可到达，这个时候，您可以拖动您的点到其他可以到达的地方并等待机器人的响应。\
@@ -93,11 +106,13 @@ var tips_message = "1,输入机器人地址，然后点击Connect按钮\
 var globalMap = new Vue({
     el: '#map',
     data: {
+        is_mobile: false,
         ip: '192.168.1.200',
         tips_seen: false,
         button_seen: false,
         robot_seen: true,
         rotate_seen: true,
+        sidenav_seen: true,
         seen: false,
 
         Mode_mapMove: true,
@@ -145,3 +160,13 @@ var globalMap = new Vue({
         }
     },
 });
+
+// 
+// 移动适配
+// 
+if (window.orientation != undefined) {
+    globalMap.is_mobile = true;
+    if (window.orientation != 90 && window.orientation != 270) {
+        // alert("横屏体验更佳");
+    }
+}

@@ -26,19 +26,22 @@ function notify(message, time, css) {
             //toastr.success(message, {timeOut: 100000000})
             M.toast({
                 html: message,
-                classes: 'rounded green'
+                classes: 'rounded green',
+                displayLength:'1000',
             });
             break;
         case "warn":
             M.toast({
                 html: message,
-                classes: 'blue'
+                classes: 'blue',
+                displayLength:'500',
             });
             break;
         case "error":
             M.toast({
                 html: message,
-                classes: 'red'
+                classes: 'red',
+                displayLength:'1000',
             });
             break;
         default:

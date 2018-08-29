@@ -73,6 +73,15 @@ function drawImgByMove(x, y) {
             document.getElementById(LINE_NAME + i).style.left = $("#" + LINE_NAME + i)[0].offsetLeft + translate_value_X + 'px';
         }
     }
+
+    var foo_1 = rotate_mapping(meshGridPoint[0].map_x, meshGridPoint[0].map_y);
+    var foo_2 = rotate_mapping(meshGridPoint[1].map_x, meshGridPoint[1].map_y);
+    meshGridPoint[0][0] = foo_1.x;
+    meshGridPoint[0][1] = foo_1.y;
+    meshGridPoint[1][0] = foo_2.x;
+    meshGridPoint[1][1] = foo_2.y;
+
+    draw_meshGrid(meshGridPoint, 20);
 }
 
 
@@ -107,7 +116,7 @@ function drawImgByStatus(x, y) {
     };
 
     //  Mark the CENTER of map and the ORIGIN of map 
-    if ((origin_quadrant == 1)||(origin_quadrant == 2)) {
+    if ((origin_quadrant == 1) || (origin_quadrant == 2)) {
         globalMap.mapOriginX = globalMap.mapCenterX - length_center_origin * Math.sin(-imgStatus.rotate * Math.PI / 180 - angle_center_origin) * imgStatus.scale;
         globalMap.mapOriginY = globalMap.mapCenterY - length_center_origin * Math.cos(-imgStatus.rotate * Math.PI / 180 - angle_center_origin) * imgStatus.scale;
     } else {
@@ -213,6 +222,16 @@ function drawImgByStatus(x, y) {
     }
 
 
+    var foo_1 = rotate_mapping(meshGridPoint[0].map_x, meshGridPoint[0].map_y);
+    var foo_2 = rotate_mapping(meshGridPoint[1].map_x, meshGridPoint[1].map_y);
+    meshGridPoint[0][0] = foo_1.x;
+    meshGridPoint[0][1] = foo_1.y;
+    meshGridPoint[1][0] = foo_2.x;
+    meshGridPoint[1][1] = foo_2.y;
+
+    draw_meshGrid(meshGridPoint, 20);
+
+    console.log(meshGridPoint);
+
     globalMap.lastScale = imgStatus.scale;
 }
-
