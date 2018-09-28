@@ -10,16 +10,48 @@
 
     <script src="./rgbaster.js"></script>
     <script>
-        var img = './demo.png'
-        var img_obj = document.createElement("img")
-        img_obj.style.position = 'fixed'
-        img_obj.style.top = "20%"
-        img_obj.style.left = "20%"
-        img_obj.src = img
-        document.body.appendChild(img_obj)
+        var imgObj = new Image();
+        imgObj.src = './demo.png'
 
-        RGBaster.colors(img, {
+        imgObj.onload = function () {
+            canvas.setAttribute('width', imgObj.width);
+            canvas.setAttribute('height', imgObj.height);
+            ctx.drawImage(imgObj, 0, 0, imgObj.width, imgObj.height)
+        }
+        var canvas = document.createElement("canvas")
+
+        var ctx = canvas.getContext('2d');
+        canvas.style.position = 'fixed'
+        canvas.style.top = "20%"
+        canvas.style.left = "20%"
+        document.body.appendChild(canvas)
+
+        RGBaster.colors(imgObj.src, {
             success: function (payload) {
+                ctx.strokeStyle = "red"
+                ctx.beginPath()
+                ctx.moveTo(0, 0)
+                ctx.lineTo(imgObj.width, 0)
+                ctx.lineTo(imgObj.width, imgObj.height)
+                ctx.lineTo(0, imgObj.height)
+                ctx.lineTo(0, 0)
+                ctx.stroke()
+                ctx.beginPath()
+                ctx.moveTo(imgObj.width / 4, imgObj.height / 4)
+                ctx.lineTo(imgObj.width * 3 / 4, imgObj.height / 4)
+                ctx.lineTo(imgObj.width * 3 / 4, imgObj.height * 3 / 4)
+                ctx.lineTo(imgObj.width / 4, imgObj.height * 3 / 4)
+                ctx.lineTo(imgObj.width / 4, imgObj.height / 4)
+                ctx.stroke()
+
+                ctx.beginPath()
+                ctx.fillStyle = "red"
+                ctx.font = "lighter 20px Arial"
+                ctx.textAlign = "center";
+                ctx.fillText("extract area", imgObj.width / 2, imgObj.height / 8);
+                ctx.fill();
+                
+
                 document.body.style.backgroundColor = payload.dominant;
                 document.getElementById("note").innerText = "extract dominant-color: " + payload.dominant
                 document.getElementById("note2").innerText = "extract secondary-color: " + payload.secondary
