@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0">
+    <title>soym</title>
+</head>
+
+<body>
+    <div id="map">
+
+        <div style="position: absolute;width: 80%;left:20%;">
+            <table id="senceInfo" class="striped">
+                <thead>
+                    <tr>
+                        <th>序号<b id="sence_id" onclick="getSortedInfo('sence_id')" style="background-color:yellow;cursor: pointer;"
+                                class="no-select">↑↓</b></th>
+
+                        <th style="width:12%">
+                            <select id="product_model_select" class="browser-default" onchange="getclassifyInfo()">
+                                <option value="all" selected style="background-color:yellow">产品型号</option>
+                            </select>
+                        </th>
+                        <th>
+                            <select id="lens_model_select" class="browser-default" onchange="getclassifyInfo()">
+                                <option value="all" selected style="background-color:yellow">次要参数</option>
+                            </select>
+                        </th>
+                        <th>
+                            <select id="mounting_height_select" class="browser-default" onchange="getclassifyInfo()">
+                                <option value="all" selected style="background-color:yellow">高度</option>
+                            </select>
+
+                        </th>
+                        <th>
+                            <select id="test_site_select" class="browser-default" onchange="getclassifyInfo()">
+                                <option value="all" selected style="background-color:yellow">场地</option>
+                            </select>
+
+                        </th>
+                        <th>
+                            <select id="Installation_method_select" class="browser-default" onchange="getclassifyInfo()">
+                                <option value="all" selected style="background-color:yellow">安装方式</option>
+                            </select>
+                        </th>
+                        <th>
+                            <select id="temp_humi_select" class="browser-default" onchange="getclassifyInfo()">
+                                <option value="all" selected style="background-color:yellow">温度/湿度</option>
+                            </select>
+                        </th>
+                        <th>测试日期 <b id="sence_date_sort" onclick="getSortedInfo('sence_date_sort')" style="background-color:yellow;cursor: pointer;"
+                                class="no-select">↑↓</b></th>
+                        <th>测试人员/验证人员</th>
+                        <th>感应区域</th>
+                        <th>下载数据表格</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    
+                
+                    <tr>
+                        <td>13</td>
+                        <td>型号1</td>
+                        <td>546</td>
+                        <td>2.0m</td>
+                        <td>室内</td>
+                        <td>吸顶</td>
+                        <td>27° / 60%</td>
+                        <td>2018-09-21 17:45:27</td>
+                        <td>ss / ss</td>
+                        <td>56%</td>
+                        <td>
+                            <a style="cursor:pointer" onmouseover="update_params(13);" onmouseout="if(document.getElementById('out_canvas')!=undefined){
+                                document.body.removeChild(document.getElementById('out_canvas'));
+                            }"
+                                onclick="if(document.getElementById('out_canvas')!=undefined){downloadPic('pdf','square')}">点击下载
+
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>7</td>
+                        <td>型号1</td>
+                        <td>546</td>
+                        <td>2.0m</td>
+                        <td>室内</td>
+                        <td>吸顶</td>
+                        <td>27° / 60%</td>
+                        <td>2018-09-21 14:12:27</td>
+                        <td>sss / ss</td>
+                        <td>56%</td>
+                        <td>
+                            <a style="cursor:pointer" onmouseover="update_params(7);" onmouseout="if(document.getElementById('out_canvas')!=undefined){
+                                document.body.removeChild(document.getElementById('out_canvas'));
+                            }"
+                                onclick="if(document.getElementById('out_canvas')!=undefined){downloadPic('pdf','square')}">点击下载
+
+                            </a>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>6</td>
+                        <td>型号1</td>
+                        <td>546</td>
+                        <td>2.0m</td>
+                        <td>室内</td>
+                        <td>吸顶</td>
+                        <td>27° / 60%</td>
+                        <td>2018-09-21 10:59:58</td>
+                        <td>aa / aa</td>
+                        <td>56%</td>
+                        <td>
+                            <a style="cursor:pointer" onmouseover="update_params(6);" onmouseout="if(document.getElementById('out_canvas')!=undefined){
+                                document.body.removeChild(document.getElementById('out_canvas'));
+                            }"
+                                onclick="if(document.getElementById('out_canvas')!=undefined){downloadPic('pdf','square')}">点击下载
+
+                            </a>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>5</td>
+                        <td>型号2</td>
+                        <td>546</td>
+                        <td>2.0m</td>
+                        <td>室内</td>
+                        <td>吸顶</td>
+                        <td>27° / 60%</td>
+                        <td>2018-09-18 10:26:34</td>
+                        <td>f / f</td>
+                        <td>56%</td>
+                        <td>
+                            <a style="cursor:pointer" onmouseover="update_params(5);" onmouseout="if(document.getElementById('out_canvas')!=undefined){
+                                document.body.removeChild(document.getElementById('out_canvas'));
+                            }"
+                                onclick="if(document.getElementById('out_canvas')!=undefined){downloadPic('pdf','square')}">点击下载
+
+                            </a>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>4</td>
+                        <td>型号2</td>
+                        <td>546</td>
+                        <td>2.0m</td>
+                        <td>室内</td>
+                        <td>吸顶</td>
+                        <td>27° / 60%</td>
+                        <td>2018-09-18 10:26:34</td>
+                        <td>f / f</td>
+                        <td>56%</td>
+                        <td>
+                            <a style="cursor:pointer" onmouseover="update_params(4);" onmouseout="if(document.getElementById('out_canvas')!=undefined){
+                                document.body.removeChild(document.getElementById('out_canvas'));
+                            }"
+                                onclick="if(document.getElementById('out_canvas')!=undefined){downloadPic('pdf','square')}">点击下载
+
+                            </a>
+                        </td>
+                    </tr>
+
+                    
+                    
+                </tbody>
+
+            </table>
+        </div>
+
+
+
+    </div>
+
+
+
+    <script src="./table-filter-sort.js"></script>
+
+</body>
+
+</html>
