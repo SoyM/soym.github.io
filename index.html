@@ -7,12 +7,13 @@
 	<meta name="description" content="SoyM">
 	<meta name="author" content="SoyM">
 	<link href="/static/favicon.ico" rel="shortcut icon">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	 crossorigin="anonymous">
 	<style>
 		html,
 		body {
 			height: 100%;
+            position: relative;
 		}
 
 		.soym {
@@ -22,9 +23,12 @@
 		.container {
 			height: 80%;
 		}
+        p{
+            font-size: 1.3rem
+        }
 	</style>
 	<title>SoyM</title>
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="//cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 	<script>
 	  (adsbygoogle = window.adsbygoogle || []).push({
@@ -34,9 +38,9 @@
 	</script>
 </head>
 
-<body>
+<body data-spy="scroll" data-target="#navbar-example">
 	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #00000013;">
-		<a class="navbar-brand" href="/">Index</a>
+		<a class="navbar-brand" href="./">Index</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
 		 aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -44,18 +48,65 @@
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active">
-					<a class="nav-link" href="/panel/">Panel
+                <li class="nav-item active">
+					<a class="nav-link" href="#SLAM">SLAM
 						<span class="sr-only">(current)</span>
 					</a>
-				</li>
+                </li>
+                <li class="nav-item">
+					<a class="nav-link" href="#Cartography">Cartography
+						<span class="sr-only">(current)</span>
+					</a>
+                </li>
+                <li class="nav-item">
+					<a class="nav-link" href="#Maplab">Maplab
+						<span class="sr-only">(current)</span>
+					</a>
+                </li>
+                <li class="nav-item">
+					<a class="nav-link" href="#Search">Search
+						<span class="sr-only">(current)</span>
+					</a>
+                </li>
+                <li class="nav-item">
+					<a class="nav-link" href="./panel/">Panel demo
+						<span class="sr-only">(current)</span>
+					</a>
+                </li>
 			</ul>
 		</div>
-	</nav>
-	<div class="container-fluid">
-		<div class="soym-header px-5 py-5 pt-md-5 pb-md-5 mx-auto text-center">
+    </nav>
+    
+      <div class="container-fluid">
+        <h1 id="SLAM">SLAM</h1>
+        <p>
+            In robotic mapping and navigation, simultaneous localization and mapping (SLAM) is the computational problem of constructing or updating a map of an unknown environment while simultaneously keeping track of an agent's location within it. While this initially appears to be a chicken-and-egg problem there are several algorithms known for solving it, at least approximately, in tractable time for certain environments. Popular approximate solution methods include the particle filter, extended Kalman filter, and GraphSLAM.
+            <br>
+            SLAM algorithms are tailored to the available resources, hence not aimed at perfection, but at operational compliance. Published approaches are employed in self-driving cars, unmanned aerial vehicles, autonomous underwater vehicles, planetary rovers, newer domestic robots and even inside the human body.
+        </p>
+        <h2 id="Cartography">Cartography</h2>
+        <p>
+            <a href="https://github.com/googlecartographer/cartographer">
+                https://github.com/googlecartographer/cartographer  
+            </a>
+            <br>
+            Cartographer is a system that provides real-time simultaneous localization and mapping (SLAM) in 2D and 3D across multiple platforms and sensor configurations.
+        </p>
+        <h2 id="Maplab">Maplab</h2>
+        <p>
+            <a href="https://github.com/ethz-asl/maplab">https://github.com/ethz-asl/maplab<a>
+            <br>    
+            maplab, an open, research-oriented visual-inertial mapping framework, written in C++, for creating, processing and manipulating multi-session maps. On the one hand, maplab can be considered as a ready-to-use visual-inertial mapping and localization system. On the other hand, maplab provides the research community with a collection of multi-session mapping tools that include map merging, visual-inertial batch optimization, and loop closure.
+            Furthermore, it includes an online frontend, ROVIOLI, that can create visual-inertial maps and also track a global drift-free pose within a localization map.
+        </p>
+      </div>
+
+
+
+	<div class="container-fluid" id="Search">
+		<!-- <div class="soym-header px-5 py-5 pt-md-5 pb-md-5 mx-auto text-center">
 			<h1 class="display-4">SoyM</h1>
-		</div>
+		</div> -->
 		<div id="demo">
 			<br/>
 			<br/>
@@ -136,7 +187,7 @@
 
 		})
 		function leiphone_data(searchKey) {
-			var apiURL = 'http://111.230.224.190:8081/search?q=' + searchKey + '&w=leiphone'
+			var apiURL = '//111.230.224.190:8081/search?q=' + searchKey + '&w=leiphone'
 			console.log(apiURL)
 			var self = this
 			var xhr = new XMLHttpRequest()
@@ -148,14 +199,9 @@
 			xhr.send()
 		}
 	</script>
-	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-	 crossorigin="anonymous"></script>
-	<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-	 crossorigin="anonymous"></script>
-	<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-	 crossorigin="anonymous"></script>
+
 	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-64769278-2"></script>
+	<script async src="//www.googletagmanager.com/gtag/js?id=UA-64769278-2"></script>
 	<script>
 		window.dataLayer = window.dataLayer || [];
 		function gtag() { dataLayer.push(arguments); }
