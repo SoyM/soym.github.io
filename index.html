@@ -2,15 +2,15 @@
 <html lang="en">
 
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="SoyM">
-	<meta name="author" content="SoyM">
-	<link href="/static/favicon.ico" rel="shortcut icon">
-	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-	 crossorigin="anonymous">
-	<style>
-		html,
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="SoyM">
+    <meta name="author" content="SoyM">
+    <link href="./static/favicon.ico" rel="shortcut icon">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <style>
+        html,
 		body {
 			height: 100%;
             position: relative;
@@ -27,11 +27,11 @@
             font-size: 1.3rem
         }
 	</style>
-	<title>SoyM</title>
-	<script src="//cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-	<script>
-	  (adsbygoogle = window.adsbygoogle || []).push({
+    <title>SoyM</title>
+    <script src="//cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
 	    google_ad_client: "ca-pub-8853617418914857",
 	    enable_page_level_ads: true
 	  });
@@ -39,176 +39,217 @@
 </head>
 
 <body data-spy="scroll" data-target="#navbar-example">
-	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #00000013;">
-		<a class="navbar-brand" href="./">Index</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-		 aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #00000013;">
+        <a class="navbar-brand" href="./">Index</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav mr-auto">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-					<a class="nav-link" href="#SLAM">SLAM
-						<span class="sr-only">(current)</span>
-					</a>
+                    <a class="nav-link" href="#SLAM">SLAM
+                        <span class="sr-only">(current)</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-					<a class="nav-link" href="#Cartography">Cartography
-						<span class="sr-only">(current)</span>
-					</a>
+                    <a class="nav-link" href="#Cartography">Cartography
+                        <span class="sr-only">(current)</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-					<a class="nav-link" href="#Maplab">Maplab
-						<span class="sr-only">(current)</span>
-					</a>
+                    <a class="nav-link" href="#Maplab">Maplab
+                        <span class="sr-only">(current)</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-					<a class="nav-link" href="#Search">Search
-						<span class="sr-only">(current)</span>
-					</a>
+                    <a class="nav-link" href="#Calibration">Calibration
+                    </a>
                 </li>
                 <li class="nav-item">
-					<a class="nav-link" href="./panel/">Panel demo
-						<span class="sr-only">(current)</span>
-					</a>
+                    <a class="nav-link" href="#Search">Search
+                        <span class="sr-only">(current)</span>
+                    </a>
                 </li>
-			</ul>
-		</div>
+                <li class="nav-item">
+                    <a class="nav-link" href="./panel/">Panel demo
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </nav>
-    
-      <div class="container-fluid">
+
+    <div class="container-fluid">
         <h1 id="SLAM">SLAM</h1>
         <p>
-            In robotic mapping and navigation, simultaneous localization and mapping (SLAM) is the computational problem of constructing or updating a map of an unknown environment while simultaneously keeping track of an agent's location within it. While this initially appears to be a chicken-and-egg problem there are several algorithms known for solving it, at least approximately, in tractable time for certain environments. Popular approximate solution methods include the particle filter, extended Kalman filter, and GraphSLAM.
+            In robotic mapping and navigation, simultaneous localization and mapping (SLAM) is the computational
+            problem of constructing or updating a map of an unknown environment while simultaneously keeping track of
+            an agent's location within it. While this initially appears to be a chicken-and-egg problem there are
+            several algorithms known for solving it, at least approximately, in tractable time for certain
+            environments. Popular approximate solution methods include the particle filter, extended Kalman filter, and
+            GraphSLAM.
             <br>
-            SLAM algorithms are tailored to the available resources, hence not aimed at perfection, but at operational compliance. Published approaches are employed in self-driving cars, unmanned aerial vehicles, autonomous underwater vehicles, planetary rovers, newer domestic robots and even inside the human body.
+            SLAM algorithms are tailored to the available resources, hence not aimed at perfection, but at operational
+            compliance. Published approaches are employed in self-driving cars, unmanned aerial vehicles, autonomous
+            underwater vehicles, planetary rovers, newer domestic robots and even inside the human body.
         </p>
         <h2 id="Cartography">Cartography</h2>
         <p>
             <a href="https://github.com/googlecartographer/cartographer">
-                https://github.com/googlecartographer/cartographer  
+                https://github.com/googlecartographer/cartographer
             </a>
             <br>
-            Cartographer is a system that provides real-time simultaneous localization and mapping (SLAM) in 2D and 3D across multiple platforms and sensor configurations.
+            Cartographer is a system that provides real-time simultaneous localization and mapping (SLAM) in 2D and 3D
+            across multiple platforms and sensor configurations.
         </p>
         <h2 id="Maplab">Maplab</h2>
         <p>
             <a href="https://github.com/ethz-asl/maplab">https://github.com/ethz-asl/maplab<a>
-            <br>    
-            maplab, an open, research-oriented visual-inertial mapping framework, written in C++, for creating, processing and manipulating multi-session maps. On the one hand, maplab can be considered as a ready-to-use visual-inertial mapping and localization system. On the other hand, maplab provides the research community with a collection of multi-session mapping tools that include map merging, visual-inertial batch optimization, and loop closure.
-            Furthermore, it includes an online frontend, ROVIOLI, that can create visual-inertial maps and also track a global drift-free pose within a localization map.
+                    <br>
+                    maplab, an open, research-oriented visual-inertial mapping framework, written in C++, for creating,
+                    processing and manipulating multi-session maps. On the one hand, maplab can be considered as a
+                    ready-to-use visual-inertial mapping and localization system. On the other hand, maplab provides
+                    the research community with a collection of multi-session mapping tools that include map merging,
+                    visual-inertial batch optimization, and loop closure.
+                    Furthermore, it includes an online frontend, ROVIOLI, that can create visual-inertial maps and also
+                    track a global drift-free pose within a localization map.
         </p>
-      </div>
+
+        <h1><a href="./calibration/">Calibration</a></h1>
+        <p>
+            <ul style="font-size:1.3rem">
+                <li>Imu calibration: calculation of the noise values for use in IMU filters. </li>
+                <li>Multiple camera calibration: intrinsic and extrinsic calibration of a camera-systems with
+                    non-globally shared overlapping fields of view</li>
+                <li>Visual-inertial calibration calibration (camera-IMU): spatial and temporal calibration of an IMU
+                    w.r.t a camera-system</li>
+                <li>Rolling Shutter Camera calibration: full intrinsic calibration (projection, distortion and shutter
+                    parameters) of rolling shutter cameras</li>
+            </ul>
+        </p>
+
+
+    </div>
 
 
 
-	<div class="container-fluid" id="Search">
-		<!-- <div class="soym-header px-5 py-5 pt-md-5 pb-md-5 mx-auto text-center">
+    <div class="container-fluid" id="Search">
+        <!-- <div class="soym-header px-5 py-5 pt-md-5 pb-md-5 mx-auto text-center">
 			<h1 class="display-4">SoyM</h1>
 		</div> -->
-		<div id="demo">
-			<br/>
-			<br/>
-			<br/>
-			<div class="row justify-content-md-center">
-				<div class="col-md-6 col-sm-8">
-					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model='searchKey' />
-				</div>
-			</div>
-			<br/>
-			<br/>
+        <div id="demo">
+            <br />
+            <br />
+            <br />
+            <div class="row justify-content-md-center">
+                <div class="col-md-6 col-sm-8">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model='searchKey' />
+                </div>
+            </div>
+            <br />
+            <br />
 
-			<ul>
-				<li v-for="record in commits">
-					<a :href="record.url" target="_blank" class="commit">{{ record.title.slice(0, 100) | truncate }}</a>
-					<br>
-					<br>
-				</li>
+            <ul>
+                <li v-for="record in commits">
+                    <a :href="record.url" target="_blank" class="commit">{{ record.title.slice(0, 100) | truncate }}</a>
+                    <br>
+                    <br>
+                </li>
 
-				<li v-for="record in leiphone">
-					<a :href="record.url" target="_blank" class="commit">{{ record.title.slice(0, 100) | truncate }}</a>
-					<br>
-					<br>
-				</li>
-			</ul>
-		</div>
-	</div>
+                <li v-for="record in leiphone">
+                    <a :href="record.url" target="_blank" class="commit">{{ record.title.slice(0, 100) | truncate }}</a>
+                    <br>
+                    <br>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="navbar bottom navbar-light bg-light ">
+        <div style="margin-left:44%">
+            @2019 soym
+        </div>
+    </footer>
 
 
+    <script>
+        var demo = new Vue({
 
-	<script>
-		var demo = new Vue({
+            el: '#demo',
 
-			el: '#demo',
+            data: {
+                branches: ['zh', 'en'],
+                currentBranch: 'zh',
+                commits: null,
+                leiphone: null,
+                searchKey: '',
+            },
 
-			data: {
-				branches: ['zh', 'en'],
-				currentBranch: 'zh',
-				commits: null,
-				leiphone: null,
-				searchKey: '',
-			},
+            created: function () {
+                this.fetchData()
+            },
 
-			created: function () {
-				this.fetchData()
-			},
+            watch: {
+                searchKey: 'fetchData'
+            },
 
-			watch: {
-				searchKey: 'fetchData'
-			},
+            filters: {
+                truncate: function (v) {
+                    var newline = v.indexOf('\n')
+                    return newline > 0 ? v.slice(0, newline) : v
+                },
+                formatDate: function (v) {
+                    return v.replace(/T|Z/g, ' ')
+                }
+            },
 
-			filters: {
-				truncate: function (v) {
-					var newline = v.indexOf('\n')
-					return newline > 0 ? v.slice(0, newline) : v
-				},
-				formatDate: function (v) {
-					return v.replace(/T|Z/g, ' ')
-				}
-			},
+            methods: {
+                fetchData: function () {
+                    var apiURL = 'http://127.0.0.1:8081/search?q=' + this.searchKey + '&w=zhihu'
+                    console.log(apiURL)
+                    var self = this
+                    var xhr = new XMLHttpRequest()
+                    xhr.open('GET', apiURL)
+                    xhr.onload = function () {
+                        self.commits = JSON.parse(xhr.responseText).SearchResults
+                        // console.log(self.commits)
+                    }
+                    xhr.send()
 
-			methods: {
-				fetchData: function () {
-					var apiURL = 'http://127.0.0.1:8081/search?q=' + this.searchKey + '&w=zhihu'
-					console.log(apiURL)
-					var self = this
-					var xhr = new XMLHttpRequest()
-					xhr.open('GET', apiURL)
-					xhr.onload = function () {
-						self.commits = JSON.parse(xhr.responseText).SearchResults
-						// console.log(self.commits)
-					}
-					xhr.send()
+                    leiphone_data(this.searchKey)
+                },
+            }
 
-					leiphone_data(this.searchKey)
-				},
-			}
+        })
 
-		})
-		function leiphone_data(searchKey) {
-			var apiURL = '//111.230.224.190:8081/search?q=' + searchKey + '&w=leiphone'
-			console.log(apiURL)
-			var self = this
-			var xhr = new XMLHttpRequest()
-			xhr.open('GET', apiURL)
-			xhr.onload = function () {
-				demo.leiphone = JSON.parse(xhr.responseText).SearchResults
-				// console.log(self.commits)
-			}
-			xhr.send()
-		}
-	</script>
+        function leiphone_data(searchKey) {
+            var apiURL = '//111.230.224.190:8081/search?q=' + searchKey + '&w=leiphone'
+            console.log(apiURL)
+            var self = this
+            var xhr = new XMLHttpRequest()
+            xhr.open('GET', apiURL)
+            xhr.onload = function () {
+                demo.leiphone = JSON.parse(xhr.responseText).SearchResults
+                // console.log(self.commits)
+            }
+            xhr.send()
+        }
+    </script>
 
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="//www.googletagmanager.com/gtag/js?id=UA-64769278-2"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag() { dataLayer.push(arguments); }
-		gtag('js', new Date());
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-64769278-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-		gtag('config', 'UA-64769278-2');
-	</script>
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-64769278-2');
+    </script>
 </body>
 
 </html>

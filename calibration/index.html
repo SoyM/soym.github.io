@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>calibration</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+</head>
+
+
+<body>
+    <div class=container-fluid>
+        <h1>calibration</h1>
+
+        <h2>imu</h2>
+
+        <a href="https://github.com/ethz-asl/kalibr/wiki/IMU-Noise-Model">IMU-Noise-Model</a>
+
+        <li> Additive "White Noise" </li>
+        <li> Bias </li>
+
+        <p>This has some nice utility scripts and packages that allow for calculation of the noise values for use in
+            both
+            kalibr
+            and IMU filters.</p>
+
+        <a href="https://github.com/rpng/kalibr_allan">https://github.com/rpng/kalibr_allan</a>
+
+        <h2> camera-imu </h2>
+
+        <h3> camera </h3>
+
+        <li> throttle is a ROS node that subscribes to a topic and republishes incoming data to another topic, either
+            at a
+            maximum bandwidth or maximum message rate.
+        </li>
+
+        <p>rosrun topic_tools throttle messages <in_topic> 4.0 [out_topic]</p>
+
+        <a href="https://github.com/ethz-asl/kalibr">https://github.com/ethz-asl/kalibr</a>
+    </div>
+</body>
+
+</html>
